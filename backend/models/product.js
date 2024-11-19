@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-
+const mongoose = require('mongoose')
 
 const productModel = new mongoose.Schema({
 
@@ -11,7 +10,7 @@ const productModel = new mongoose.Schema({
 
     description: {
         type: String,
-        required: [true, "Product description is required."],
+        required: true,
         trim: true,
     },
 
@@ -48,6 +47,24 @@ const productModel = new mongoose.Schema({
         }
     },
 
+    brand: {
+        type: String,
+        required: [true, 'Please select brand for this product'],
+        enum: {
+            values: [
+                "Seiko",
+                'Citizen',
+                'Rolex',
+                'Omega',
+                'Cartier',
+                'Breitling',
+                'Tudor',
+                'Grand Seiko',
+            ],
+            message: 'Please select brand type for product'
+        }
+    },
+
     images: [
         {
             public_id: {
@@ -64,17 +81,17 @@ const productModel = new mongoose.Schema({
 
     sell_price: {
         type: Number,
-        required: [true, 'Please enter seller price'],
+        required: true,
     },
 
     cost_price: {
         type: Number,
-        required: [true, 'Please enter product price'],
+        required: true,
     },
 
     stock_quantity: {
         type: Number,
-        required: [true, 'Please enter product stock'],
+        required: true,
         default: 0,
     }
 
