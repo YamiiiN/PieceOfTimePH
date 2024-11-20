@@ -2,6 +2,7 @@ import React from 'react'
 import NavBar from '../../components/Home/NavBar';
 import Hero from '../../components/Home/Hero';
 import ProductCard from '../../components/Products/Card';
+import Footer from '../../components/User/Footer';
 
 const products = [
   {
@@ -49,6 +50,7 @@ const Home = () => {
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
             <ProductCard />
         </div>
+        <Footer />
     </>
   )
 }

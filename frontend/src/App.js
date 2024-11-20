@@ -1,12 +1,10 @@
 import React from 'react';
 import Home from './screens/User/Home';
-import Dashboard from './screens/Admin/Dashboard';
 import LoginPage from './screens/User/Login';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ToolBoard from './screens/Admin/ToolBoard';
-import Content from './components/Admin/Content';
-import Revenues from './components/Admin/Revenues';
 import SignUp from './components/User/RegisterCard';
+import MiniDrawer from './screens/Admin/ToolBoard';
+import ProductDetails from './screens/User/ProductDetails';
 
 function App() {
   return (
@@ -15,10 +13,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} exact />
           <Route path="/register" element={<SignUp />} exact />
-          <Route path="/dashboard" element={<ToolBoard />} exact />
+          <Route path="/dashboard" element={<MiniDrawer />} exact />
           <Route path="/login" element={<LoginPage />} exact />
-          <Route path="/content" element={<Content />} exact />
-          <Route path="/revenues" element={<Revenues />} exact />
+          <Route path="/productdetails" element={<ProductDetails />} exact />
         </Routes>
       </Router>
     </div>
