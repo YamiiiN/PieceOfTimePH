@@ -1,8 +1,18 @@
-import { Box, CircularProgress } from '@mui/material';
 import React from 'react';
+import { Box, keyframes } from '@mui/material';
 import ProductDetailsPage from '../../components/Products/Details';
 import NavBar from '../../components/Home/NavBar';
 import Footer from '../../components/User/Footer';
+import Spinner from '../../components/Spinner';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const product = {
   title: 'Paramore Band T-shirt',
@@ -27,22 +37,15 @@ const ProductDetails = () => {
   }, []);
 
   if (loading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <CircularProgress color="primary" />
-      </Box>
-    );
+    return <Spinner />;
   }
 
   return (
-    <Box>
+    <Box
+      sx={{
+        animation: `${fadeIn} 1s ease-in-out`,
+      }}
+    >
       <NavBar username="Diana Carreon" />
       <ProductDetailsPage product={product} />
       <Footer />

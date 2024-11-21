@@ -31,7 +31,7 @@ const Spinner = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        background: "linear-gradient(135deg, #ff7eb3, #ff758c)",
+        background: "#000000",
         color: "white",
       }}
     >
@@ -53,16 +53,7 @@ const Spinner = () => {
             animation: `${spin} 1.5s linear infinite`,
           }}
         />
-        <Typography
-          variant="h6"
-          sx={{
-            position: "absolute",
-            fontWeight: "bold",
-            animation: `${fadeIn} 2s infinite`,
-          }}
-        >
-          Loading
-        </Typography>
+        
       </Box>
       <Typography
         variant="subtitle1"
@@ -73,7 +64,7 @@ const Spinner = () => {
           animation: `${fadeIn} 2s infinite`,
         }}
       >
-        Hang tight! Your content is on its way.
+        Hang tight! Loading...
       </Typography>
     </Box>
   );
