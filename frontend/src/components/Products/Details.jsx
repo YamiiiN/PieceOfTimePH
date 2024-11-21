@@ -15,13 +15,13 @@ const ProductDetailsPage = ({ product }) => {
         src={images[index]}
         alt={`thumbnail ${index}`}
         style={{
-          width: '60px',
-          height: '60px',
+          width: '80px',
+          height: '80px',
+          marginTop: '20px',
           objectFit: 'cover',
           borderRadius: '5px',
           cursor: 'pointer',
           border: '2px solid #ccc',
-          margin: '20px',
           transition: 'transform 0.3s, border-color 0.3s',
         }}
       />
@@ -61,7 +61,7 @@ const ProductDetailsPage = ({ product }) => {
                     style={{
                       width: '80%',
                       height: 'auto',
-                      borderRadius: '8px',
+                      borderRadius: '8px'
                     }}
                   />
                 </div>

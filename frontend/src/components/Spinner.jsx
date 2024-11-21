@@ -62,6 +62,7 @@ const Spinner = () => {
           fontWeight: 300,
           textAlign: "center",
           animation: `${fadeIn} 2s infinite`,
+          fontFamily: 'Poppins, sans-serif'
         }}
       >
         Hang tight! Loading...

@@ -10,13 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { baseUrl } from "../../assets/constants";
 
-
-
-
 const LoginCard = () => {
   const navigate = useNavigate();
-
-
 
   // YUP VALIDATION
   const validationSchema = Yup.object({
@@ -80,7 +75,6 @@ const LoginCard = () => {
       }}
     >
       <Grid container spacing={0} sx={{ height: "80%", width: "80%", borderRadius: "12px", overflow: 'hidden' }}>
-        {/* Left Side: Video Background */}
         <Grid item xs={6} sx={{ position: "relative", overflow: 'hidden', borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px" }}>
           <video autoPlay muted loop style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
             <source src="/watchvid.mp4" type="video/mp4" />
@@ -88,7 +82,6 @@ const LoginCard = () => {
           </video>
         </Grid>
 
-        {/* Right Side: Login Form with Logo */}
         <Grid item xs={6}>
           <Card sx={{
             height: "100%",
@@ -159,8 +152,9 @@ const LoginCard = () => {
                 <small style={{ fontSize: 12, color: "red" }}>{formik.errors.password}</small>
               )}
 
-              {/* Forgot Password Link */}
               <Typography
+                href="/register"
+                component=""
                 variant="body2"
                 sx={{
                   textAlign: "right",
@@ -171,7 +165,7 @@ const LoginCard = () => {
                   '&:hover': { textDecoration: "underline" },
                 }}
               >
-                Forgot Password?
+                Do not have an account?
               </Typography>
 
               <Button
@@ -186,6 +180,7 @@ const LoginCard = () => {
                   '&:hover': { backgroundColor: "#34A853" },
                   transition: "0.3s",
                   marginBottom: '10px',
+                  marginTop: '10px'
                 }}
               >
                 Login with Google
