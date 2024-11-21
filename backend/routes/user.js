@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../utils/multer')
+const { isAuthenticated } = require('../middleware/auth');
 
 
 const {
@@ -9,8 +10,8 @@ const {
 } = require('../controllers/user');
 
 
-router.post('/register', upload.array('images'), register)
+router.post('/register', isAuthenticated,upload.array('images'), register)
 
-router.post('/login', login)
+router.post('/login', isAuthenticated,login)
 
 module.exports = router;

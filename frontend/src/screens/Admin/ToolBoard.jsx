@@ -19,7 +19,9 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Product from '../../components/Admin/Products';
+import { useNavigate } from 'react-router-dom';
 
+import DashboardIcon from '@mui/icons-material/Dashboard';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -74,7 +76,7 @@ const AppBar = styled(MuiAppBar, {
   ],
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })( 
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme }) => ({
     width: drawerWidth,
     flexShrink: 0,
@@ -99,7 +101,24 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   })
 );
 
-const MiniDrawer = () => {
+
+// ADD NEW PAGE HERE
+const pages = [
+  {
+    label: 'Dashboard',
+    route: '/dashboard',
+    icon: <DashboardIcon />,
+  },
+  {
+    label: 'Products',
+    route: '/admin/products',
+    icon: <MailIcon />,
+  }
+]
+
+const MiniDrawer = ({ children }) => {
+  const navigate = useNavigate();
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [activeContent, setActiveContent] = React.useState(null);
@@ -158,14 +177,14 @@ const MiniDrawer = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Products', 'Orders', 'Charts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+          {pages.map((page, index) => (
+            <ListItem key={page.label} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={[
                   { minHeight: 48, px: 2.5 },
                   open ? { justifyContent: 'initial' } : { justifyContent: 'center' },
                 ]}
-                onClick={() => handleNavigationClick(text.toLowerCase())}
+                onClick={() => navigate(page.route)}
               >
                 <ListItemIcon
                   sx={[
@@ -173,9 +192,9 @@ const MiniDrawer = () => {
                     open ? { mr: 3 } : { mr: 'auto' },
                   ]}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {page.icon}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={[open ? { opacity: 1 } : { opacity: 0 }]} />
+                <ListItemText primary={page.label} sx={[open ? { opacity: 1 } : { opacity: 0 }]} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -184,7 +203,7 @@ const MiniDrawer = () => {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        {renderContent()}
+        {children}
       </Box>
     </Box>
   );
