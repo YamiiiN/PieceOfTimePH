@@ -4,7 +4,9 @@ import Carousel from 'react-slick';
 import 'slick-carousel/slick/slick.css'; 
 import 'slick-carousel/slick/slick-theme.css';
 
+
 const ProductDetailsPage = ({ product }) => {
+  
   const { title, description, brand, movement, price, images } = product;
 
   const settings = {

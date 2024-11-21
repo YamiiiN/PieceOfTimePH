@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const upload = require("../utils/multer");
-
+const { isAuthenticated } = require('../middleware/auth');
+    
 
 const {
     createProduct,
@@ -12,7 +13,8 @@ const {
 } = require('../controllers/product');
 
 
-router.post('/create', upload.array('images'), createProduct);
+
+router.post('/create', isAuthenticated,upload.array('images'), createProduct);
 
 router.get('/get/all', getAllProducts);
 

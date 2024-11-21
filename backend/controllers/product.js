@@ -98,7 +98,6 @@ exports.getSingleProduct = async (req, res, next) => {
             success: false,
         })
 
-
     }
 
 }

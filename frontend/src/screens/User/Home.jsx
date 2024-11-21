@@ -3,6 +3,9 @@ import NavBar from '../../components/Home/NavBar';
 import Hero from '../../components/Home/Hero';
 import ProductCard from '../../components/Products/Card';
 import Footer from '../../components/User/Footer';
+import ProductListing from '../../components/Products/ProductListing';
+
+
 
 const products = [
   {
@@ -48,7 +51,7 @@ const Home = () => {
         <NavBar username="Diana Carreon"/>
         <Hero />
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <ProductCard />
+            <ProductListing />
         </div>
         <Footer />
     </>
