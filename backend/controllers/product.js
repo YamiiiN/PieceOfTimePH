@@ -13,6 +13,7 @@ exports.createProduct = async (req, res, next) => {
         req.body.images = [];
 
         const images = req.files;
+        console.log(images);
 
         for (let i = 0; i < images.length; i++) {
 

@@ -14,7 +14,7 @@ const productModel = new mongoose.Schema({
         trim: true,
     },
 
-    category: {
+    category: { 
         type: String,
         required: [true, 'Please select category for this product'],
         enum: {

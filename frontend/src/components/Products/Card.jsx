@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductCard({ product }) {
   return (

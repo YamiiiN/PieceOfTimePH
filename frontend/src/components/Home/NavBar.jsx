@@ -28,13 +28,13 @@ const NavBar = ({ username }) => {
             alt="Logo" 
             style={{ height: '40px', marginRight: '1rem' }}
           />
-          <Button color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '2px', fontFamily: 'Poppins, sans-serif' }}>
+          <Button href="/" color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '2px', fontFamily: 'Poppins, sans-serif' }}>
             Home
           </Button>
-          <Button color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '2px', fontFamily: 'Poppins, sans-serif' }}>
+          <Button href="/products" color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '2px', fontFamily: 'Poppins, sans-serif' }}>
             Products
           </Button>
-          <Button color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '2px', fontFamily: 'Poppins, sans-serif' }}>
+          <Button href="/about" color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '2px', fontFamily: 'Poppins, sans-serif' }}>
             About
           </Button>
         </Box>

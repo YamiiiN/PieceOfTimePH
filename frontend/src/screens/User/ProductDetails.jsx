@@ -1,8 +1,18 @@
-import { Box } from '@mui/material';
 import React from 'react';
+import { Box, keyframes } from '@mui/material';
 import ProductDetailsPage from '../../components/Products/Details';
 import NavBar from '../../components/Home/NavBar';
 import Footer from '../../components/User/Footer';
+import Spinner from '../../components/Spinner';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const product = {
   title: 'Paramore Band T-shirt',
@@ -19,8 +29,23 @@ const product = {
 };
 
 const ProductDetails = () => {
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
-    <Box>
+    <Box
+      sx={{
+        animation: `${fadeIn} 1s ease-in-out`,
+      }}
+    >
       <NavBar username="Diana Carreon" />
       <ProductDetailsPage product={product} />
       <Footer />
