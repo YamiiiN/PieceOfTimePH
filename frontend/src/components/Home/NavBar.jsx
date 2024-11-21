@@ -10,22 +10,36 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
-import '@fontsource/poppins'; 
+import '@fontsource/poppins';
+
+
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+// import { auth } from '../utils/firebase';
 
 const NavBar = ({ username }) => {
+  const { cartItems } = useSelector(state => state.cart)
+
+  const navigate = useNavigate();
+
+
+
   const getInitials = (name) => {
     if (!name) return '';
     const names = name.split(' ');
     return names.map((n) => n.charAt(0).toUpperCase()).join('');
   };
 
+
+
   return (
     <AppBar position="static" sx={{ backgroundColor: '#000', fontFamily: 'Poppins, sans-serif' }}>
       <Toolbar>
         <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-        <img 
-            src="/piece logo.png" 
-            alt="Logo" 
+          <img
+            src="/piece logo.png"
+            alt="Logo"
             style={{ height: '40px', marginRight: '1rem' }}
           />
           <Button href="/" color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '2px', fontFamily: 'Poppins, sans-serif' }}>
@@ -40,8 +54,8 @@ const NavBar = ({ username }) => {
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+          <IconButton color="inherit" onClick={() => navigate('/cart')} >
+            <Badge badgeContent={cartItems.length} color="secondary">
               <ShoppingCartIcon sx={{ color: '#fff' }} />
             </Badge>
           </IconButton>

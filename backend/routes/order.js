@@ -5,13 +5,13 @@ const { isAuthenticated } = require('../middleware/auth');
 
 
 const {
-    register,
-    login,
-} = require('../controllers/user');
+    create
+} = require('../controllers/order');
 
 
-router.post('/register', upload.array('images'), register)
 
-router.post('/login', login)
+router.post('/create', isAuthenticated, create)
+
+
 
 module.exports = router;

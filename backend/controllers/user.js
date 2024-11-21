@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const cloudinary = require('cloudinary');
+const { sendToken } = require('../utils/jwtToken');
 
 exports.register = async (req, res, next) => {
 

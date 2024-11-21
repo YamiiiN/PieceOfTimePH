@@ -14,7 +14,7 @@ const {
 
 
 
-router.post('/create', isAuthenticated,upload.array('images'), createProduct);
+router.post('/create',upload.array('images'), createProduct);
 
 router.get('/get/all', getAllProducts);
 

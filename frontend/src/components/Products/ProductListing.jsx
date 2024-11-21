@@ -8,6 +8,7 @@ import axios from "axios";
 import { baseUrl } from "../../assets/constants";
 import Card from "./Card";
 import { Box } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 export default function ProductListing() {
 
@@ -26,12 +27,25 @@ export default function ProductListing() {
             console.log(error)
         }
     }
+    const { id } = useParams();
+    const [product, setProduct] = useState(null);
+  
+    // Fetch product data
+    const getSingleProduct = async () => {
+      try {
+        const { data } = await axios.get(`${baseUrl}/product/${id}`);
+        setProduct(data.product);
+      } catch (error) {
+        console.error('Error fetching product data:', error);
+      }
+    };
 
     useEffect(() => {
         getProducts();
+        // getSingleProduct();
     }, [])
 
-    
+
 
 
     return (

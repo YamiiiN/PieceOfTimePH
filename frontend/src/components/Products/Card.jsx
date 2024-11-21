@@ -2,10 +2,17 @@ import React from 'react';
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, id }) {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/product/${product._id}`);
+  };
+
   return (
 
     <Card
+      onClick={handleCardClick}
       sx={{
         maxWidth: "260px",
         borderRadius: 3,
@@ -60,7 +67,7 @@ export default function ProductCard({ product }) {
             transition: "color 0.3s ease",
           }}
         >
-         { product.name }
+          {product.name}
         </Typography>
       </CardContent>
     </Card>

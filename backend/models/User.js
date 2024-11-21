@@ -1,4 +1,8 @@
 const mongoose = require('mongoose')
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 
 const userModel = new mongoose.Schema({
@@ -49,7 +53,24 @@ const userModel = new mongoose.Schema({
 
 }, { timestamps: true });
 
+// HASH NG PASSWORD
+userModel.pre('save', async function (next) {
+    if (!this.isModified('password')) {
+        next();
+    }
 
+    this.password = await bcrypt.hash(this.password, 10);
+});
 
+userModel.methods.getJwtToken = function () {
+    return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_TIME
+    });
+}
+
+// COMPARE PASSWORD PAG NAG LLOGIN
+userModel.methods.comparePassword = async function (inputtedPassword) {
+    return await bcrypt.compare(inputtedPassword, this.password);
+}
 
 module.exports = mongoose.model('User', userModel)
