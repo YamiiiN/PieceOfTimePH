@@ -3,21 +3,23 @@ import Home from './screens/User/Home';
 import LoginPage from './screens/User/Login';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignUp from './components/User/RegisterCard';
-import ProductDetails from './screens/User/ProductDetails';
-import ProductListing from './components/Products/ProductListing';
 import Dashboard from './screens/Admin/Dashboard';
 import Products from './components/Admin/Products';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import LandingPage from './screens/User/LandingPage';
 
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 import { auth } from './utils/firebase'
 import { Navigate } from 'react-router-dom'
-import Cart from './components/Cart';
+import Cart from './screens/User/Cart';
 
 import { store, persistor } from './state/store';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
+import ProductListing from './components/Products/ProductListing';
+import ProductDetails from './screens/User/ProductDetails';
+// import ProductDetails from './components/Products/Details'
 
 function App() {
   const [user, setUser] = useState(null);
@@ -67,7 +69,9 @@ function App() {
 
             <Routes>
               {/* USER ROUTES */}
-              <Route path="/" element={<Home />} exact />
+              
+              <Route path="/" element={<LandingPage />} exact />
+              <Route path="/home" element={<Home />} exact />
               <Route path="/register" element={<SignUp />} exact />
 
               <Route path="/login" element={<LoginPage />} exact />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import NavBar from './Home/NavBar'
+import NavBar from '../../components/Home/NavBar'
 import {
     MDBBtn,
     MDBCard,
@@ -15,13 +15,13 @@ import {
 } from "mdb-react-ui-kit";
 
 
-import CartCard from './Products/CartCard';
+import CartCard from '../../components/Products/CartCard';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { baseUrl } from '../assets/constants';
+import { baseUrl } from '../../assets/constants';
 import axios from 'axios';
 import { stepLabelClasses } from '@mui/material';
-import { removeAllFromCart } from '../state/cartSlice';
+import { removeAllFromCart } from '../../state/cartSlice';
 
 
 const SHIPPING_METHODS = [
