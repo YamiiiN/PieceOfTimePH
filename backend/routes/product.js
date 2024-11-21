@@ -3,7 +3,6 @@ const router = express.Router();
 const upload = require("../utils/multer");
 
 
-
 const {
     createProduct,
     getAllProducts,

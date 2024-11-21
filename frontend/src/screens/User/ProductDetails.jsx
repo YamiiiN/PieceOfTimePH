@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import React from 'react';
 import ProductDetailsPage from '../../components/Products/Details';
 import NavBar from '../../components/Home/NavBar';
@@ -19,6 +19,28 @@ const product = {
 };
 
 const ProductDetails = () => {
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress color="primary" />
+      </Box>
+    );
+  }
+
   return (
     <Box>
       <NavBar username="Diana Carreon" />

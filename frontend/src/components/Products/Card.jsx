@@ -1,28 +1,37 @@
 import React from 'react';
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-export default function App() {
+export default function ProductCard() {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate('/productdetails');
+  };
+
   return (
     <Box
       sx={{
-        display: 'flex', 
+        display: 'flex',
         justifyContent: 'center',
         gap: 2,
         flexWrap: 'wrap',
       }}
     >
       <Card
+        onClick={handleCardClick}
         sx={{
-          maxWidth: "260px",
+          maxWidth: '260px',
           borderRadius: 3,
-          backgroundColor: "#EFECEA",
+          backgroundColor: '#EFECEA',
           marginTop: 5,
-          height: "350px",
+          height: '350px',
           marginBottom: 5,
-          overflow: "hidden",
+          overflow: 'hidden',
+          cursor: 'pointer',
           '&:hover': {
-            boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
-          }
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+          },
         }}
       >
         <CardMedia
@@ -31,28 +40,28 @@ export default function App() {
           image="https://pngimg.com/uploads/watches/watches_PNG9863.png"
           alt="Nature"
           sx={{
-            maxWidth: "260px",
+            maxWidth: '260px',
             borderRadiusTop: 3,
-            transition: "transform 0.3s ease, opacity 0.3s ease", 
+            transition: 'transform 0.3s ease, opacity 0.3s ease',
             '&:hover': {
-              transform: "scale(1.1)",
-              opacity: 1, 
-            }
+              transform: 'scale(1.1)',
+              opacity: 1,
+            },
           }}
         />
         <CardContent
           sx={{
             margin: 2,
             padding: 0,
-            fontSize: "8px",
+            fontSize: '8px',
           }}
         >
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              transition: 'color 0.3s ease',
             }}
           >
             Rolex
@@ -60,10 +69,10 @@ export default function App() {
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "bold",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              fontWeight: 'bold',
+              transition: 'color 0.3s ease',
             }}
           >
             Daytona
@@ -72,47 +81,49 @@ export default function App() {
       </Card>
 
       <Card
+        onClick={handleCardClick}
         sx={{
-          maxWidth: "260px",
+          maxWidth: '260px',
           borderRadius: 3,
-          backgroundColor: "#EFECEA",
+          backgroundColor: '#EFECEA',
           marginTop: 5,
-          height: "350px",
+          height: '350px',
           marginBottom: 5,
-          overflow: "hidden",
+          overflow: 'hidden',
+          cursor: 'pointer',
           '&:hover': {
-            boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
-          }
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+          },
         }}
       >
         <CardMedia
           component="img"
           height="280px"
-          image="https://mdbootstrap.com/img/new/standard/nature/184.webp"
+          image="https://pngimg.com/uploads/watches/watches_PNG9863.png"
           alt="Nature"
           sx={{
-            maxWidth: "260px",
+            maxWidth: '260px',
             borderRadiusTop: 3,
-            transition: "transform 0.3s ease, opacity 0.3s ease", 
+            transition: 'transform 0.3s ease, opacity 0.3s ease',
             '&:hover': {
-              transform: "scale(1.1)",
-              opacity: 1, 
-            }
+              transform: 'scale(1.1)',
+              opacity: 1,
+            },
           }}
         />
         <CardContent
           sx={{
             margin: 2,
             padding: 0,
-            fontSize: "8px",
+            fontSize: '8px',
           }}
         >
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              transition: 'color 0.3s ease',
             }}
           >
             Rolex
@@ -120,10 +131,10 @@ export default function App() {
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "bold",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              fontWeight: 'bold',
+              transition: 'color 0.3s ease',
             }}
           >
             Daytona
@@ -132,47 +143,49 @@ export default function App() {
       </Card>
 
       <Card
+        onClick={handleCardClick}
         sx={{
-          maxWidth: "260px",
+          maxWidth: '260px',
           borderRadius: 3,
-          backgroundColor: "#EFECEA",
+          backgroundColor: '#EFECEA',
           marginTop: 5,
-          height: "350px",
+          height: '350px',
           marginBottom: 5,
-          overflow: "hidden",
+          overflow: 'hidden',
+          cursor: 'pointer',
           '&:hover': {
-            boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
-          }
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+          },
         }}
       >
         <CardMedia
           component="img"
           height="280px"
-          image="https://mdbootstrap.com/img/new/standard/nature/184.webp"
+          image="https://pngimg.com/uploads/watches/watches_PNG9863.png"
           alt="Nature"
           sx={{
-            maxWidth: "260px",
+            maxWidth: '260px',
             borderRadiusTop: 3,
-            transition: "transform 0.3s ease, opacity 0.3s ease", 
+            transition: 'transform 0.3s ease, opacity 0.3s ease',
             '&:hover': {
-              transform: "scale(1.1)",
-              opacity: 1, 
-            }
+              transform: 'scale(1.1)',
+              opacity: 1,
+            },
           }}
         />
         <CardContent
           sx={{
             margin: 2,
             padding: 0,
-            fontSize: "8px",
+            fontSize: '8px',
           }}
         >
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              transition: 'color 0.3s ease',
             }}
           >
             Rolex
@@ -180,10 +193,10 @@ export default function App() {
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "bold",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              fontWeight: 'bold',
+              transition: 'color 0.3s ease',
             }}
           >
             Daytona
@@ -192,47 +205,49 @@ export default function App() {
       </Card>
 
       <Card
+        onClick={handleCardClick}
         sx={{
-          maxWidth: "260px",
+          maxWidth: '260px',
           borderRadius: 3,
-          backgroundColor: "#EFECEA",
+          backgroundColor: '#EFECEA',
           marginTop: 5,
-          height: "350px",
+          height: '350px',
           marginBottom: 5,
-          overflow: "hidden",
+          overflow: 'hidden',
+          cursor: 'pointer',
           '&:hover': {
-            boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
-          }
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+          },
         }}
       >
         <CardMedia
           component="img"
           height="280px"
-          image="https://mdbootstrap.com/img/new/standard/nature/184.webp"
+          image="https://pngimg.com/uploads/watches/watches_PNG9863.png"
           alt="Nature"
           sx={{
-            maxWidth: "260px",
+            maxWidth: '260px',
             borderRadiusTop: 3,
-            transition: "transform 0.3s ease, opacity 0.3s ease", 
+            transition: 'transform 0.3s ease, opacity 0.3s ease',
             '&:hover': {
-              transform: "scale(1.1)",
-              opacity: 1, 
-            }
+              transform: 'scale(1.1)',
+              opacity: 1,
+            },
           }}
         />
         <CardContent
           sx={{
             margin: 2,
             padding: 0,
-            fontSize: "8px",
+            fontSize: '8px',
           }}
         >
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              transition: 'color 0.3s ease',
             }}
           >
             Rolex
@@ -240,10 +255,10 @@ export default function App() {
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "bold",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              fontWeight: 'bold',
+              transition: 'color 0.3s ease',
             }}
           >
             Daytona
@@ -252,47 +267,49 @@ export default function App() {
       </Card>
 
       <Card
+        onClick={handleCardClick}
         sx={{
-          maxWidth: "260px",
+          maxWidth: '260px',
           borderRadius: 3,
-          backgroundColor: "#EFECEA",
+          backgroundColor: '#EFECEA',
           marginTop: 5,
-          height: "350px",
+          height: '350px',
           marginBottom: 5,
-          overflow: "hidden",
+          overflow: 'hidden',
+          cursor: 'pointer',
           '&:hover': {
-            boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
-          }
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+          },
         }}
       >
         <CardMedia
           component="img"
           height="280px"
-          image="https://mdbootstrap.com/img/new/standard/nature/184.webp"
+          image="https://pngimg.com/uploads/watches/watches_PNG9863.png"
           alt="Nature"
           sx={{
-            maxWidth: "260px",
+            maxWidth: '260px',
             borderRadiusTop: 3,
-            transition: "transform 0.3s ease, opacity 0.3s ease", 
+            transition: 'transform 0.3s ease, opacity 0.3s ease',
             '&:hover': {
-              transform: "scale(1.1)",
-              opacity: 1, 
-            }
+              transform: 'scale(1.1)',
+              opacity: 1,
+            },
           }}
         />
         <CardContent
           sx={{
             margin: 2,
             padding: 0,
-            fontSize: "8px",
+            fontSize: '8px',
           }}
         >
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              transition: 'color 0.3s ease',
             }}
           >
             Rolex
@@ -300,10 +317,10 @@ export default function App() {
           <Typography
             component="div"
             sx={{
-              fontSize: "13px",
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "bold",
-              transition: "color 0.3s ease",
+              fontSize: '13px',
+              fontFamily: 'Poppins, sans-serif',
+              fontWeight: 'bold',
+              transition: 'color 0.3s ease',
             }}
           >
             Daytona
