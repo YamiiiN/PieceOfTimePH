@@ -59,7 +59,7 @@ export default function ProductCard({ product }) {
             transition: "color 0.3s ease",
           }}
         >
-         { product.name}
+         { product.name }
         </Typography>
       </CardContent>
     </Card>

@@ -132,7 +132,7 @@ export default function Sidebar({ children }) {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={open} sx={{ backgroundColor: "#000000" }}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -148,9 +148,11 @@ export default function Sidebar({ children }) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Mini variant drawer
-                    </Typography>
+                    <img
+                        src="/piece logo.png"
+                        alt="Logo"
+                        style={{ height: '40px', marginRight: '1rem' }}
+                    />
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
