@@ -69,15 +69,22 @@ function App() {
 
             <Routes>
               {/* USER ROUTES */}
-              
+
               <Route path="/" element={<LandingPage />} exact />
               <Route path="/home" element={<Home />} exact />
               <Route path="/register" element={<SignUp />} exact />
 
-              <Route path="/login" element={<LoginPage />} exact />
+
+              <Route path='/login'
+                element={user ? <Navigate to={'/home'} /> : <LoginPage />}
+              />
+              {/* <Route path="/login" element={<LoginPage />} exact /> */}
+
               <Route path="/product/get/all" element={<ProductListing />} exact />
+              
               <Route path="/product/:id" element={<ProductDetails />} exact />
 
+              {/* CART ROUTE */}
               <Route path='/cart' element={<Cart />} />
 
             </Routes>

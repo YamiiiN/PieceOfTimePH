@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../utils/multer')
-const { isAuthenticated } = require('../middleware/auth');
+const { isAuthenticated, isAuthenticatedV2 } = require('../middleware/auth');
+
 
 
 const {
@@ -10,7 +11,8 @@ const {
 
 
 
-router.post('/create', isAuthenticated, create)
+
+router.post('/create', isAuthenticatedV2,create)
 
 
 

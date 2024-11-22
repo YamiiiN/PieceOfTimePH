@@ -9,6 +9,8 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import '@fontsource/poppins';
 
+import Login from '../User/LoginCard';
+
 import { Button, Menu, MenuItem, Typography } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -18,12 +20,19 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { auth } from '../../utils/firebase';
+
 // import { auth } from '../utils/firebase';
 
 const NavBar = ({ username }) => {
   const { cartItems } = useSelector(state => state.cart)
 
   const navigate = useNavigate();
+
+  const logout = () => {
+    auth.signOut();
+    navigate('/login')
+  }
 
   const getInitials = (name) => {
     if (!name) return '';
@@ -112,7 +121,7 @@ const NavBar = ({ username }) => {
               <ListAltIcon sx={{ marginRight: '8px' }} />
               <Typography>Orders</Typography>
             </MenuItem>
-            <MenuItem onClick={() => handleNavigate('/logout')}>
+            <MenuItem onClick={logout}>
               <ExitToAppIcon sx={{ marginRight: '8px' }} />
               <Typography>Logout</Typography>
             </MenuItem>
