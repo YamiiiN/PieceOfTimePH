@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import NavBar from '../../components/Home/NavBar'
+import Spinner from '../../components/Spinner';
 import {
     MDBBtn,
     MDBCard,
@@ -95,8 +96,6 @@ export default function Cart() {
 
         return totalPrice;
     }
-
-
 
     return (
         <>
