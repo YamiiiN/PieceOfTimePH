@@ -10,9 +10,7 @@ const Home = () => {
     <>
         <NavBar username="Diana Carreon"/>
         <Hero />
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
             <ProductListing />
-        </div>
         <Footer />
     </>
   )

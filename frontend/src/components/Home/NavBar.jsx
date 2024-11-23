@@ -60,36 +60,31 @@ const NavBar = ({ username }) => {
     setOpen(false);
   };
 
-
-
-
-
   return (
     <AppBar position="static" sx={{ backgroundColor: '#000', fontFamily: 'Poppins, sans-serif' }}>
       <Toolbar>
         <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
           <img
+            href="/home"
             src="/piece logo.png"
             alt="Logo"
             style={{ height: '40px', marginRight: '1rem' }}
           />
-          <Button href="/home" color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '8px', fontFamily: 'Poppins, sans-serif' }}>
-            Home
-          </Button>
-          <Button href="/productlisting" color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '8px', fontFamily: 'Poppins, sans-serif' }}>
+          
+        </Box>
+
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton color="inherit" onClick={() => navigate('/cart')}  sx={{marginRight: 1.5}}>
+            <Badge badgeContent={cartItems.length} color="secondary">
+              <ShoppingCartIcon sx={{ color: '#fff' }} />
+            </Badge>
+          </IconButton>
+          <Button href="/product/get/all" color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '8px', fontFamily: 'Poppins, sans-serif' }}>
             Products
           </Button>
           <Button href="/about" color="inherit" sx={{ color: '#fff', textTransform: 'none', marginRight: '8px', fontFamily: 'Poppins, sans-serif' }}>
             About
           </Button>
-        </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton color="inherit" onClick={() => navigate('/cart')} >
-            <Badge badgeContent={cartItems.length} color="secondary">
-              <ShoppingCartIcon sx={{ color: '#fff' }} />
-            </Badge>
-          </IconButton>
 
           {username ? (
             <Avatar
@@ -99,9 +94,11 @@ const NavBar = ({ username }) => {
               {getInitials(username)}
             </Avatar>
           ) : (
+
             <Avatar sx={{ marginLeft: '1rem', bgcolor: '#fff', color: '#000', cursor: 'pointer' }} onClick={handleProfileMenuOpen}>
               <AccountCircleIcon />
             </Avatar>
+            
           )}
 
           <Menu

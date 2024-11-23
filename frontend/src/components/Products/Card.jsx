@@ -10,15 +10,13 @@ export default function ProductCard({ product, id }) {
   };
 
   return (
-    <Box>
       <Card
         onClick={handleCardClick}
         sx={{
-          maxWidth: "260px",
+          width: "260px",
           borderRadius: 3,
           backgroundColor: "#EFECEA",
           height: "350px",
-          marginBottom: 2,
           overflow: "hidden",
           '&:hover': {
             boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
@@ -31,7 +29,7 @@ export default function ProductCard({ product, id }) {
           src={product.images[0].url}
           alt="Nature"
           sx={{
-            maxWidth: "260px",
+            width: "260px",
             borderRadiusTop: 3,
             transition: "transform 0.3s ease, opacity 0.3s ease",
             '&:hover': {
@@ -70,6 +68,5 @@ export default function ProductCard({ product, id }) {
           </Typography>
         </CardContent>
       </Card>
-    </Box>
   );
 }
