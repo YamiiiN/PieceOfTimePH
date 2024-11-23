@@ -63,9 +63,8 @@ const NavBar = ({ username }) => {
   return (
     <AppBar position="static" sx={{ backgroundColor: '#000', fontFamily: 'Poppins, sans-serif' }}>
       <Toolbar>
-        <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+        <Box component={"a"} href='/home' sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
           <img
-            href="/home"
             src="/piece logo.png"
             alt="Logo"
             style={{ height: '40px', marginRight: '1rem' }}
