@@ -16,6 +16,7 @@ export const cartSlice = createSlice({
             // IF NOT EXISTING YUNG PROD IS TSAKA LANG IADD SA CART
             if (!Boolean(state.cartItems.find(product => product._id === newProduct._id))) {
                 state.cartItems = [...state.cartItems, action.payload] //... spread operator
+                alert("Success Add to cart")
             }
 
         },

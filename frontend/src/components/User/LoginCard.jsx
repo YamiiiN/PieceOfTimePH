@@ -10,8 +10,15 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { baseUrl } from "../../assets/constants";
 
+
+import { useDispatch } from "react-redux";
+import { setToken } from '../../state/authSlice';
+
 const LoginCard = () => {
   const navigate = useNavigate();
+
+  // WAY PARA 
+  const dispatch = useDispatch()
 
   // YUP VALIDATION
   const validationSchema = Yup.object({
@@ -45,12 +52,32 @@ const LoginCard = () => {
     }
   })
 
+  // const login = async (values) => {
+
+  //   try {
+  //     const data = await signInWithEmailAndPassword(auth, values.email, values.password)
+
+  //     // const user = auth.currentUser;
+
+  //     navigate('/home');
+
+  //     // console.log(user);
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+
+  // }
+
   const login = async (values) => {
 
     try {
       const data = await signInWithEmailAndPassword(auth, values.email, values.password)
 
       // const user = auth.currentUser;
+
+      dispatch(
+        setToken(data.user.accessToken)
+      )
 
       navigate('/home');
 
