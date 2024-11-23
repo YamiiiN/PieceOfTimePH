@@ -13,13 +13,13 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import { auth } from './utils/firebase'
 import { Navigate } from 'react-router-dom'
 import Cart from './screens/User/Cart';
-
 import { store, persistor } from './state/store';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
-import ProductListing from './components/Products/ProductListing';
+// import ProductListing from './components/Products/ProductListing';
 import ProductDetails from './screens/User/ProductDetails';
 // import ProductDetails from './components/Products/Details'
+import ProductList from './screens/User/ProductList';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -41,9 +41,6 @@ function App() {
   //     alert("You denied for the notification");
   //   }
   // }
-
-
-
 
 
 
@@ -75,7 +72,7 @@ function App() {
               <Route path="/register" element={<SignUp />} exact />
 
               <Route path="/login" element={<LoginPage />} exact />
-              <Route path="/product/get/all" element={<ProductListing />} exact />
+              <Route path="/product/get/all" element={<ProductList />} exact />
               <Route path="/product/:id" element={<ProductDetails />} exact />
 
               <Route path='/cart' element={<Cart />} />

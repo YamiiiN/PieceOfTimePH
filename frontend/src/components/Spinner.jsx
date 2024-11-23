@@ -65,7 +65,7 @@ const Spinner = () => {
           fontFamily: 'Poppins, sans-serif'
         }}
       >
-        Hang tight! Loading...
+        Loading...
       </Typography>
     </Box>
   );

@@ -14,7 +14,6 @@ import {
     MDBTypography,
 } from "mdb-react-ui-kit";
 
-
 import CartCard from '../../components/Products/CartCard';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -132,7 +131,7 @@ export default function Cart() {
 
                                                 <div className="pt-5">
                                                     <MDBTypography tag="h6" className="mb-0">
-                                                        <MDBCardText tag="a" href="#!" className="text-body">
+                                                        <MDBCardText tag="a" href="/product/get/all" className="text-body">
                                                             <MDBIcon fas icon="long-arrow-alt-left me-2" /> Back
                                                             to shop
                                                         </MDBCardText>
@@ -212,7 +211,7 @@ export default function Cart() {
                                                     <MDBTypography tag="h5">₱{computeTotal()}</MDBTypography>
                                                 </div>
 
-                                                <MDBBtn disabled={loading} onClick={checkout} color="dark" block size="lg">
+                                                <MDBBtn disabled={loading} onClick={checkout} color="success    " block size="lg">
                                                     {loading ? "Processing..." : "Check out"}
                                                 </MDBBtn>
                                             </div>

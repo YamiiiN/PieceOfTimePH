@@ -154,7 +154,7 @@ const LoginCard = () => {
 
               <Typography
                 href="/register"
-                component=""
+                component="a"
                 variant="body2"
                 sx={{
                   textAlign: "right",
