@@ -24,6 +24,10 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 
+
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import ReviewsIcon from '@mui/icons-material/Reviews';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -100,9 +104,19 @@ const pages = [
         label: 'Products',
         icon: <MailIcon />,
         children: [
-            { label: 'Add Product', route: '/admin/products/add', icon: <AddBoxIcon /> },
-            { label: 'View Products', route: '/admin/products/view', icon: <VisibilityIcon /> },
+            { label: 'Add Product', route: '/product/create', icon: <AddBoxIcon /> },
+            { label: 'View Products', route: '/admin/products', icon: <VisibilityIcon /> },
         ],
+    },
+    {
+        label: 'Orders',
+        route: '/orders',
+        icon: <AssignmentIcon />,
+    },
+    {
+        label: 'Reviews',
+        route: '/orderOfUser',
+        icon: <ReviewsIcon />,
     },
 ];
 
