@@ -28,13 +28,12 @@ const Dashboard = () => {
   const [salesData, setSalesData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch sales data from the backend
   const fetchSalesData = async () => {
     try {
       setIsLoading(true);
       const { data } = await axios.get(`${baseUrl}/order/orders/monthly-sales`);
       console.log('Fetched Sales Data:', data);
-      setSalesData(data); // Data is already formatted in the backend
+      setSalesData(data); 
     } catch (error) {
       console.error('Error fetching sales data:', error);
     } finally {
@@ -46,7 +45,6 @@ const Dashboard = () => {
     fetchSalesData();
   }, []);
 
-  // Filter data based on date range
   const filteredData = salesData.filter((item) => {
     const itemDate = new Date(`${item.year}-${String(item.month).padStart(2, '0')}-01`);
     const start = startDate ? new Date(startDate) : null;

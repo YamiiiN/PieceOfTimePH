@@ -2,7 +2,6 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const mongoose = require('mongoose');
 
-// Function to create an order
 exports.create = async (req, res, next) => {
     try {
         req.body.user = req.user._id;
@@ -28,10 +27,8 @@ exports.create = async (req, res, next) => {
     }
 };
 
-// Function to get the sales chart data by month
 exports.getMonthlySales = async (req, res, next) => {
     try {
-        // Aggregation pipeline to group orders by month and year and calculate total sales for each month
         const salesData = await Order.aggregate([
             {
                 $project: {
@@ -51,7 +48,6 @@ exports.getMonthlySales = async (req, res, next) => {
             }
         ]);
 
-        // Formatting the result into a more useful structure for the frontend (optional)
         const formattedData = salesData.map(data => ({
             year: data._id.year,
             month: data._id.month,
