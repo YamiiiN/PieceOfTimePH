@@ -1,7 +1,7 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const transporter = require('../utils/mailer');
-const notify = require('../utils/notify')
+const notify = require('../utils/notify');
 
 ;
 const mongoose = require('mongoose');
@@ -66,8 +66,6 @@ exports.getMonthlySales = async (req, res, next) => {
     }
 };
 
-
-
 exports.all = async (req, res, next) => {
 
     try {
@@ -93,31 +91,6 @@ exports.all = async (req, res, next) => {
 
     }
 }
-
-// WORKING UPDATE STATUS NG ORDER W/O EMAIL 
-// exports.updateStatus = async (req, res, next) => {
-
-//     try {
-
-//         const newStatus = req.body.status;
-
-//         const order = await Order.findById(req.params.id);
-//         order.status = newStatus;
-//         order.save();
-
-//         res.json({
-//             message: "Order Lists.",
-//             orders: orders
-//         })
-
-//     } catch (error) {
-
-//         console.log(error)
-
-//     }
-
-// }
-
 
 const sendOrderUpdateEmail = async (orderId) => {
     try {
@@ -185,9 +158,6 @@ const sendOrderUpdateEmail = async (orderId) => {
     }
 };
 
-
-// TRIAL 1
-// exports.updateStatus = async (req, res) => {
 //     const { status } = req.body;
 //     const { id } = req.params;
 
@@ -250,18 +220,27 @@ exports.updateStatus = async (req, res) => {
     }
 };
 
+exports.getUserOrders = async (req, res) => {
+    try {
+        const userId = req.user._id; // Assuming req.user is set after authentication
+        const orders = await Order.find({ user: userId }).populate({
+            path: 'order_items.product',
+            select: 'name sell_price images',
+        });
 
+        res.status(200).json({
+            success: true,
+            orders,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch orders.',
+        });
+    }
+};
 
-// // ORDER VIEW OF LOGIN USER
-// const getUserOrders = async (req, res, next) => {
-//     try {
-//         const userId = req.user._id; // Extract user ID from the token payload
-//         const orders = await Order.find({ user: userId });
-//         res.status(200).json({ success: true, orders });
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: 'Error fetching orders', error });
-//     }
-// };
 
 
 // exports.getUserOrders = getUserOrders;

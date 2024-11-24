@@ -19,6 +19,8 @@ import StarIcon from "@mui/icons-material/Star";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import HistoryIcon from "@mui/icons-material/History";
 
+import UserOrderList from "./UserOrderList";
+
 const ProfileAvatar = styled(Avatar)(({ theme }) => ({
   width: theme.spacing(14),
   height: theme.spacing(14),
@@ -211,7 +213,7 @@ const ProfilePage = () => {
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
           <Typography variant="body1" color="text.secondary">
-            Dito order status mo
+            <UserOrderList />
           </Typography>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>

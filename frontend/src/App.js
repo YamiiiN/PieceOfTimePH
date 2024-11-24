@@ -23,7 +23,7 @@ import ProductUpdate from './components/Admin/ProductUpdate';
 import OrderList from './components/Admin/OrderList';
 
 // IMPORTS FOR USERS
-import OrderOfUser from './screens/User/OrderOfUser'
+import UserOrderList from './components/User/UserOrderList';
 
 // IMPORTS FOR ADMIN
 // import ProductDetails from './components/Products/Details'
@@ -122,22 +122,33 @@ function App() {
               <Route path="/" element={<LandingPage />} exact />
               <Route path="/home" element={<Home />} exact />
               <Route path="/register" element={<SignUp />} exact />
-              <Route path="/profile" element={<Profile />} exact />
+
+              <Route path='/profile'
+                element={user ? <Profile /> : <Navigate to={'/login'} />}
+              />
+              {/* <Route path="/profile" element={<Profile />} exact /> */}
 
               <Route path='/login'
                 element={user ? <Navigate to={'/home'} /> : <LoginPage />}
               />
               {/* <Route path="/login" element={<LoginPage />} exact /> */}
 
+              <Route path='/product/get/all'
+                element={user ? <ProductList /> : <Navigate to={'/login'} />}
+              />
 
-              <Route path="/product/get/all" element={<ProductList />} exact />
+              {/* <Route path="/product/get/all" element={<ProductList />} exact /> */}
 
               <Route path="/product/:id" element={<ProductDetails />} exact />
 
               {/* CART ROUTE */}
-              <Route path='/cart' element={<Cart />} />
+              {/* <Route path='/cart' element={<Cart />} /> */}
+              <Route path='/cart'
+                element={user ? <Cart /> : <Navigate to={'/login'} />}
+              />
 
               {/* ORDER ROUTE */}
+              <Route path="/user/orders" element={<UserOrderList />} />
               {/* <Route path='/orderOfUser'
                 element={user ? <OrderOfUser /> : <Navigate to={'/login'} />}
               /> */}
@@ -150,7 +161,10 @@ function App() {
             <Routes>
 
               {/* ADMIN ROUTES */}
-              <Route path="/dashboard" element={<Dashboard />} exact />
+              <Route path='/dashboard'
+                element={user ? <Dashboard /> : <Navigate to={'/login'} />}
+              />
+              {/* <Route path="/dashboard" element={<Dashboard />} exact /> */}
               <Route path="/admin/products" element={<Products />} exact />
 
               <Route path='/product/create'

@@ -47,21 +47,7 @@ const LoginCard = () => {
     }
   })
 
-  // const login = async (values) => {
 
-  //   try {
-  //     const data = await signInWithEmailAndPassword(auth, values.email, values.password)
-
-  //     // const user = auth.currentUser;
-
-  //     navigate('/home');
-
-  //     // console.log(user);
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-
-  // }
 
   const login = async (values) => {
 

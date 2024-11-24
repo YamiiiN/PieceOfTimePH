@@ -26,34 +26,9 @@ const isAuthenticatedV2 = async (req, res, next) => {
         res.status(401).json({ message: 'Invalid or expired token' });
     }
 
-    // console.log(token);
-    // req.user = await User.findById(data.id);
 
-    // console.log(req.user);
-
-    // next()
 
 }
-
-//     const authHeader = req.headers.authorization;
-
-//     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-//         return res.status(401).json({ message: "Authorization token is missing or invalid" });
-//     }
-
-//     const token = authHeader.split(" ")[1];
-
-//     try {
-//         const decodedToken = await admin.auth().verifyIdToken(token);
-//         const { email } = decodedToken;
-//         req.user = await User.findOne({ email });
-
-//         next();
-//     } catch (error) {
-//         return res.status(401).json({ message: "Invalid or expired token" });
-//     }
-// };
-
 
 
 // JWT TOKEN AUTH
@@ -84,7 +59,25 @@ const isAuthenticated = async (req, res, next) => {
 
 }
 
+// AUTHORIZATION MIDDLEWARE
+const authorizeRoles = (...roles) => {
+    return (req, res, next) => {
+        if (!req.user) {
+            return res.status(401).json({ message: "You are not logged in" });
+        }
+
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({
+                message: `Role: ${req.user.role} is not authorized to access this resource`
+            });
+        }
+
+        next();
+    };
+};
+
 module.exports = {
     isAuthenticated,
-    isAuthenticatedV2
+    isAuthenticatedV2,
+    authorizeRoles,
 }
