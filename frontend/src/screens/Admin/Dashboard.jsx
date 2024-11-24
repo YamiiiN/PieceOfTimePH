@@ -27,6 +27,9 @@ const Dashboard = () => {
   const [endDate, setEndDate] = useState('');
   const [salesData, setSalesData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // const [totalProducts, setTotalProducts] = useState(0);
+  // const [totalUsers, setTotalUsers] = useState(0);
+  // const [totalOrders, setTotalOrders] = useState(0);
 
   const fetchSalesData = async () => {
     try {
@@ -40,6 +43,23 @@ const Dashboard = () => {
       setIsLoading(false);
     }
   };
+
+  // useEffect(() => {
+  //   // Replace with your actual API endpoint
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('/dashboard-stats');
+  //       const data = await response.json();
+  //       setTotalProducts(data.totalProducts);
+  //       setTotalUsers(data.totalUsers);
+  //       setTotalOrders(data.totalOrders);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     fetchSalesData();
@@ -61,52 +81,49 @@ const Dashboard = () => {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={3}>
-            {/* Total Products */}
-            <Card sx={{ border: '1px solid #e0e0e0', boxShadow: 3, mb: 2 }}>
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <Inventory sx={{ fontSize: 40, color: '#388e3c', mr: 2 }} />
-                  <Typography variant="h6" sx={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
-                    Total Products
-                  </Typography>
-                </Box>
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#388e3c', fontFamily: 'Poppins, sans-serif' }}>
-                  350
-                </Typography>
-              </CardContent>
-            </Card>
+        {/* <Grid item xs={12} sm={3}>
+        <Card sx={{ border: '1px solid #e0e0e0', boxShadow: 3, mb: 2 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Inventory sx={{ fontSize: 40, color: '#388e3c', mr: 2 }} />
+              <Typography variant="h6" sx={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
+                Total Products
+              </Typography>
+            </Box>
+            <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#388e3c', fontFamily: 'Poppins, sans-serif' }}>
+              {totalProducts}
+            </Typography>
+          </CardContent>
+        </Card>
 
-            {/* Total Users */}
-            <Card sx={{ border: '1px solid #e0e0e0', boxShadow: 3, mb: 2 }}>
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <Group sx={{ fontSize: 40, color: '#1976d2', mr: 2 }} />
-                  <Typography variant="h6" sx={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
-                    Total Users
-                  </Typography>
-                </Box>
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1976d2', fontFamily: 'Poppins, sans-serif' }}>
-                  1,200
-                </Typography>
-              </CardContent>
-            </Card>
+        <Card sx={{ border: '1px solid #e0e0e0', boxShadow: 3, mb: 2 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Group sx={{ fontSize: 40, color: '#1976d2', mr: 2 }} />
+              <Typography variant="h6" sx={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
+                Total Users
+              </Typography>
+            </Box>
+            <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1976d2', fontFamily: 'Poppins, sans-serif' }}>
+              {totalUsers}
+            </Typography>
+          </CardContent>
+        </Card>
 
-            {/* Total Orders */}
-            <Card sx={{ border: '1px solid #e0e0e0', boxShadow: 3 }}>
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <ShoppingCart sx={{ fontSize: 40, color: '#f57c00', mr: 2 }} />
-                  <Typography variant="h6" sx={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
-                    Total Orders
-                  </Typography>
-                </Box>
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#f57c00', fontFamily: 'Poppins, sans-serif' }}>
-                  540
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+        <Card sx={{ border: '1px solid #e0e0e0', boxShadow: 3 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <ShoppingCart sx={{ fontSize: 40, color: '#f57c00', mr: 2 }} />
+              <Typography variant="h6" sx={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
+                Total Orders
+              </Typography>
+            </Box>
+            <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#f57c00', fontFamily: 'Poppins, sans-serif' }}>
+              {totalOrders}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid> */}
 
           {/* Sales Overview */}
           <Grid item xs={12} sm={9}>
