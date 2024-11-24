@@ -8,7 +8,7 @@ import MUIDataTables from 'mui-datatables'
 import { Button, TableCell, TableRow } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../assets/constants';
-import Sidebar from '../../screens/Admin/SideBar';
+import SideBar from '../../screens/Admin/SideBar';
 
 const Products = () => {
     // USE STATE
@@ -153,6 +153,7 @@ const Products = () => {
 
     }
 
+    // BULK DELETE
     const bulkDelete = async (ids) => {
         try {
 
@@ -170,7 +171,7 @@ const Products = () => {
 
     return (
 
-        <Sidebar>
+        <SideBar>
             <MUIDataTables
                 title={"Products List"}
                 data={tableData}
@@ -199,9 +200,6 @@ const Products = () => {
                     renderExpandableRow: (rowData, rowMeta) => {
                         const colSpan = rowData.length + 1;
                         return (
-                            // <div>
-                            //     {rowData[0]}
-                            // </div>
 
                             <TableRow>
                                 <TableCell colSpan={colSpan}>
@@ -216,7 +214,7 @@ const Products = () => {
                 }}
 
             />
-        </Sidebar>
+        </SideBar>
 
     )
 }

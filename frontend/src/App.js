@@ -18,6 +18,14 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 // import ProductListing from './components/Products/ProductListing';
 import ProductDetails from './screens/User/ProductDetails';
+import ProductCreate from './components/Admin/ProductCreate';
+import ProductUpdate from './components/Admin/ProductUpdate';
+import OrderList from './components/Admin/OrderList';
+
+// IMPORTS FOR USERS
+import OrderOfUser from './components/User/OrderOfUser'
+
+// IMPORTS FOR ADMIN
 // import ProductDetails from './components/Products/Details'
 import ProductList from './screens/User/ProductList';
 import Profile from './screens/User/Profile';
@@ -73,7 +81,6 @@ function App() {
               <Route path="/register" element={<SignUp />} exact />
               <Route path="/profile" element={<Profile />} exact />
 
-
               <Route path='/login'
                 element={user ? <Navigate to={'/home'} /> : <LoginPage />}
               />
@@ -86,6 +93,12 @@ function App() {
               {/* CART ROUTE */}
               <Route path='/cart' element={<Cart />} />
 
+              {/* ORDER ROUTE */}
+              {/* <Route path='/orderOfUser'
+                element={user ? <OrderOfUser /> : <Navigate to={'/login'} />}
+              /> */}
+              <Route path="orderOfUser" element={<OrderOfUser />} exact />
+
             </Routes>
 
 
@@ -95,6 +108,19 @@ function App() {
               {/* ADMIN ROUTES */}
               <Route path="/dashboard" element={<Dashboard />} exact />
               <Route path="/admin/products" element={<Products />} exact />
+
+              <Route path='/product/create'
+                element={user ? <ProductCreate /> : <Navigate to={'/login'} />}
+              />
+
+              <Route path='/product/update/:id'
+                element={user ? <ProductUpdate /> : <Navigate to={'/login'} />}
+              />
+
+              {/* Orders */}
+              <Route path='/orders'
+                element={user ? <OrderList /> : <Navigate to={'/login'} />}
+              />
 
             </Routes>
 

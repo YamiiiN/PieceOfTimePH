@@ -20,9 +20,6 @@ const reducers = combineReducers({
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 export default configureStore({
-  // reducer: {
-  //   cart: cartReducer,
-  // }
 
   reducer: persistedReducer
 
