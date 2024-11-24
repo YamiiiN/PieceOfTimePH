@@ -101,7 +101,7 @@ export default function Cart() {
         <>
             <NavBar username="Diana Carreon" />
 
-            <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
+            <section className="h-100 h-custom" style={{ background: "linear-gradient(135deg, #f5f5f5, #e3e3e3)" }}>
                 <MDBContainer className="py-5 h-100">
                     <MDBRow className="justify-content-center align-items-center h-100">
                         <MDBCol size="12">

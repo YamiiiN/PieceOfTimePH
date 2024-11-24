@@ -15,22 +15,18 @@ const ProductDetailsPage = () => {
   const [product, setProduct] = useState(null);
 
   const dispatch = useDispatch();
-  const { cartItems } = useSelector(state => state.cart)
+  const { cartItems } = useSelector((state) => state.cart);
 
   const addProductToCart = () => {
     if (product) {
       dispatch(
         addToCart({
           ...product,
-          quantity: 1
+          quantity: 1,
         })
       );
     }
   };
-
-
-
-  console.log(cartItems);
 
   const getSingleProduct = async () => {
     try {
@@ -45,52 +41,53 @@ const ProductDetailsPage = () => {
     getSingleProduct();
   }, []);
 
-
   const settings = product
     ? {
-      customPaging: (index) => (
-        <img
-          src={product.images[index]?.url}
-          alt={`thumbnail ${index}`}
-          style={{
-            width: '60px',
-            height: '60px',
-            objectFit: 'cover',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            border: '2px solid #ccc',
-            margin: '20px',
-            transition: 'transform 0.3s, border-color 0.3s',
-          }}
-        />
-      ),
-      dots: true,
-      dotsClass: 'slick-dots custom-dots',
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      appendDots: (dots) => (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '15px',
-          }}
-        >
-          {dots}
-        </div>
-      ),
-    }
+        customPaging: (index) => (
+          <img
+            src={product.images[index]?.url}
+            alt={`thumbnail ${index}`}
+            style={{
+              width: '60px',
+              height: '60px',
+              objectFit: 'cover',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              border: '2px solid #ccc',
+              margin: '0 8px',
+              marginTop: '30px',
+              transition: 'transform 0.3s, border-color 0.3s',
+            }}
+          />
+        ),
+        dots: true,
+        dotsClass: 'slick-dots custom-dots',
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        appendDots: (dots) => (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'left',
+              alignItems: 'center',
+              marginTop: '15px',
+              gap: '30px',
+            }}
+          >
+            {dots}
+          </div>
+        ),
+      }
     : {};
 
   return (
     <Container>
       {product ? (
-        <Grid container spacing={4} sx={{ mt: 4 }}>
-          {/* Carousel Section */}
-          <Grid item xs={12} md={6}>
+        <Grid container spacing={4} sx={{ mt: 4, marginBottom: "100px"}}>
+
+          <Grid item xs={12} md={6} >
             <Paper sx={{ padding: 2 }}>
               <Carousel {...settings}>
                 {product.images.map((item, index) => (
@@ -99,8 +96,9 @@ const ProductDetailsPage = () => {
                       src={item.url}
                       alt={`product ${index}`}
                       style={{
-                        width: '80%',
-                        height: 'auto',
+                        width: '100%',
+                        height: '500px',
+                        objectFit: 'cover',
                         borderRadius: '8px',
                       }}
                     />
@@ -110,7 +108,6 @@ const ProductDetailsPage = () => {
             </Paper>
           </Grid>
 
-          {/* Product Details Section */}
           <Grid item xs={12} md={6} mb={20}>
             <Typography
               variant="h4"
@@ -147,7 +144,7 @@ const ProductDetailsPage = () => {
             >
               Price: ₱{product.sell_price}
             </Typography>
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: "80px" }}>
               <Button
                 variant="contained"
                 color="success"
@@ -178,4 +175,3 @@ const ProductDetailsPage = () => {
 };
 
 export default ProductDetailsPage;
-

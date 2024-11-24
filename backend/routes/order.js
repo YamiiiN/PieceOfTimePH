@@ -4,12 +4,13 @@ const upload = require('../utils/multer')
 const { isAuthenticated, isAuthenticatedV2 } = require('../middleware/auth');
 
 
-
 const {
-    create
+    create,
+    getMonthlySales
 } = require('../controllers/order');
 
 
+router.get('/orders/monthly-sales', getMonthlySales);
 
 
 router.post('/create', isAuthenticatedV2,create)

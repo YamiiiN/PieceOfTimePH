@@ -20,6 +20,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import ProductDetails from './screens/User/ProductDetails';
 // import ProductDetails from './components/Products/Details'
 import ProductList from './screens/User/ProductList';
+import Profile from './screens/User/Profile';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -70,6 +71,7 @@ function App() {
               <Route path="/" element={<LandingPage />} exact />
               <Route path="/home" element={<Home />} exact />
               <Route path="/register" element={<SignUp />} exact />
+              <Route path="/profile" element={<Profile />} exact />
 
 
               <Route path='/login'
