@@ -22,6 +22,7 @@ import Select from '@mui/material/Select';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { baseUrl } from '../../assets/constants';
+import { useSelector } from 'react-redux';
 
 export default function ProductUpdate() {
 
@@ -29,6 +30,8 @@ export default function ProductUpdate() {
     const { id } = useParams();
 
     const navigate = useNavigate();
+
+    const { access_token } = useSelector(state => state.auth)
 
     const categoryOptions = [
         "Classic",
@@ -116,18 +119,45 @@ export default function ProductUpdate() {
     // FUNCTION FOR GETTING SINGLE PRODUCT
     const getProduct = async () => {
 
-        const { data } = await axios.get(`${baseUrl}/product/${id}`);
+        // const { data } = await axios.post(`${baseUrl}/product/${id}`, {
+        //     headers: {
+        //         "Authorization": `Bearer ${access_token}`
+        //     },
+        // });
 
-        formik.setFieldValue('name', data.product.name)
-        formik.setFieldValue('description', data.product.description)
-        formik.setFieldValue('category', data.product.category)
-        formik.setFieldValue('movement', data.product.movement)
-        formik.setFieldValue('brand', data.product.brand)
-        formik.setFieldValue('sell_price', data.product.sell_price)
-        formik.setFieldValue('cost_price', data.product.cost_price)
-        formik.setFieldValue('stock_quantity', data.product.stock_quantity)
+        // // const { data } = await axios.get(`${baseUrl}/product/${id}`);
 
-    }
+        // formik.setFieldValue('name', data.product.name)
+        // formik.setFieldValue('description', data.product.description)
+        // formik.setFieldValue('category', data.product.category)
+        // formik.setFieldValue('movement', data.product.movement)
+        // formik.setFieldValue('brand', data.product.brand)
+        // formik.setFieldValue('sell_price', data.product.sell_price)
+        // formik.setFieldValue('cost_price', data.product.cost_price)
+        // formik.setFieldValue('stock_quantity', data.product.stock_quantity)
+
+        try {
+            const { data } = await axios.get(`${baseUrl}/product/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${access_token}`,
+                },
+            });
+
+            formik.setFieldValue('name', data.product.name);
+            formik.setFieldValue('description', data.product.description);
+            formik.setFieldValue('category', data.product.category);
+            formik.setFieldValue('movement', data.product.movement);
+            formik.setFieldValue('brand', data.product.brand);
+            formik.setFieldValue('sell_price', data.product.sell_price);
+            formik.setFieldValue('cost_price', data.product.cost_price);
+            formik.setFieldValue('stock_quantity', data.product.stock_quantity);
+        } catch (error) {
+            console.error("Error fetching product:", error);
+        }
+    };
+
+
+
 
     // FUNCTION FOR UPDATING SINGLE PRODUCT
     const saveData = async () => {
@@ -150,10 +180,17 @@ export default function ProductUpdate() {
 
             }
 
+            // const { data } = await axios.put(`${baseUrl}/product/update/${id}`, formData, {
+            //     headers: {
+            //         "Content-Type": "multipart/form-data",
+            //         "Authorization": `Bearer ${access_token}`
+            //     }
+            // });
             const { data } = await axios.put(`${baseUrl}/product/update/${id}`, formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data"
-                }
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${access_token}`,
+                },
             });
 
             alert(data.message);

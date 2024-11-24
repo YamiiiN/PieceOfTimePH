@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const { stringify } = require('querystring');
 
 
 const userModel = new mongoose.Schema({
@@ -49,6 +50,10 @@ const userModel = new mongoose.Schema({
         type: String,
         default: 'user'
     },
+
+    notificationToken: String
+
+    // resetPasswordToken: String
 
 
 }, { timestamps: true });

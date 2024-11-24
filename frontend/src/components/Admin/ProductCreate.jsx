@@ -23,9 +23,12 @@ import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../assets/constants';
 
 import SideBar from '../../screens/Admin/SideBar';
+import { useSelector } from 'react-redux';
 
 export default function ProductCreate() {
     const navigate = useNavigate();
+
+    const { access_token } = useSelector(state => state.auth)
 
     const categoryOptions = [
         "Classic",
@@ -132,6 +135,7 @@ export default function ProductCreate() {
             const { data } = await axios.post(`${baseUrl}/product/create`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    "Authorization": `Bearer ${access_token}`
                 },
             });
 

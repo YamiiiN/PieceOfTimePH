@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const transporter = require('../utils/mailer');
+const notify = require('../utils/notify')
 
 
 
@@ -152,7 +153,6 @@ const sendOrderUpdateEmail = async (orderId) => {
         throw error; // Let the calling function handle it
     }
 };
-exports.sendOrderUpdateEmail = sendOrderUpdateEmail;
 
 
 // TRIAL 1
@@ -198,11 +198,40 @@ exports.updateStatus = async (req, res) => {
         await order.save();
         console.log("Order status updated, now sending email...");
 
+        await order.populate('user');
+
+        // FCM NOTIFICATION
+        notify.sendMessage({
+            user: req.user,
+            title: 'Order Updated',
+            body:   `${order.status} Confirmed Order ID: ${order._id}`,
+            tokens: [order.user.notificationToken]
+        })
+
         await sendOrderUpdateEmail(order._id);
 
-        res.status(200).json({ message: 'Order status updated and email sent.' });
+        res.json({ 
+            message: 'Order status updated and email sent.' 
+        });
     } catch (error) {
         console.error("Error in updateStatus:", error.message);
         res.status(500).json({ message: error.message });
     }
 };
+
+
+
+// // ORDER VIEW OF LOGIN USER
+// const getUserOrders = async (req, res, next) => {
+//     try {
+//         const userId = req.user._id; // Extract user ID from the token payload
+//         const orders = await Order.find({ user: userId });
+//         res.status(200).json({ success: true, orders });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: 'Error fetching orders', error });
+//     }
+// };
+
+
+// exports.getUserOrders = getUserOrders;
+exports.sendOrderUpdateEmail = sendOrderUpdateEmail;

@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-import { auth } from '../../utils/firebase';
+import { auth, googleProvider, signInWithPopup } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { baseUrl } from "../../assets/constants";
@@ -27,11 +27,6 @@ const LoginCard = () => {
       .required('Email is required'),
 
     password: Yup.string()
-      .min(8, 'Password must be at least 8 characters')
-      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-      .matches(/[0-9]/, 'Password must contain at least one number')
-      .matches(/[^A-Za-z0-9]/, 'Password must contain at least one special character')
       .required('Password is required'),
   });
 
@@ -88,6 +83,24 @@ const LoginCard = () => {
 
   }
 
+  // Google login handler
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      // Access the user details
+      console.log("Logged in with Google:", user);
+
+      // Dispatch the token to your Redux store (or handle it however you'd like)
+      dispatch(setToken(user.accessToken));
+
+      // Navigate to the home page
+      navigate('/home');
+    } catch (error) {
+      console.error("Google Login Error: ", error);
+    }
+  };
 
 
   return (
@@ -209,6 +222,7 @@ const LoginCard = () => {
                   marginBottom: '10px',
                   marginTop: '10px'
                 }}
+                onClick={handleGoogleLogin}
               >
                 Login with Google
               </Button>

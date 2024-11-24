@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const upload = require("../utils/multer");
-const { isAuthenticated } = require('../middleware/auth');
-    
+const { isAuthenticated, isAuthenticatedV2 } = require('../middleware/auth');
+
 
 const {
     createProduct,
@@ -14,15 +14,15 @@ const {
 
 
 
-router.post('/create',upload.array('images'), createProduct);
+router.post('/create', isAuthenticatedV2, upload.array('images'), createProduct);
 
-router.get('/get/all', getAllProducts);
+router.get('/get/all', isAuthenticatedV2, getAllProducts);
 
-router.get('/:id', getSingleProduct);
+router.get('/:id', isAuthenticatedV2, getSingleProduct);
 
-router.put('/update/:id', upload.array('images'), updateProduct)
+router.put('/update/:id', isAuthenticatedV2, upload.array('images'), updateProduct)
 
-router.delete('/delete/:id', deleteProduct)
+router.delete('/delete/:id', isAuthenticatedV2, deleteProduct)
 
 
 module.exports = router;

@@ -2,6 +2,31 @@ const User = require('../models/User');
 const cloudinary = require('cloudinary');
 const { sendToken } = require('../utils/jwtToken');
 
+exports.saveToken =  async (req, res, next) => {
+
+    try {
+
+       const user = await User.findById(req.user._id);
+
+       user.notificationToken = req.body.token;
+
+       user.save();
+
+        res.json({
+            message: "Notification token save",
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.json({
+            message: "System error occured.",
+            success: false
+        })
+    }
+
+}
+
+
 exports.register = async (req, res, next) => {
 
     try {

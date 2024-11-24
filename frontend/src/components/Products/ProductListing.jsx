@@ -3,6 +3,9 @@ import { baseUrl } from "../../assets/constants";
 import { Box, Container, List, ListItem, ListItemButton, ListItemText, Typography, Slider } from "@mui/material";
 import Card from "./Card";
 import axios from "axios";
+import { useSelector } from "react-redux";
+
+
 
 export default function ProductListing() {  
     const [products, setProducts] = useState([]);
@@ -12,9 +15,18 @@ export default function ProductListing() {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [priceRange, setPriceRange] = useState([1, 20000]); 
 
+    const { access_token } = useSelector(state => state.auth)
+
     const getProducts = async () => {
         try {
-            const { data } = await axios.get(`${baseUrl}/product/get/all`);
+
+            const { data } = await axios.get(`${baseUrl}/product/get/all`, {
+                headers: {
+                    // 'Content-Type': 'multipart/form-data',
+                    "Authorization": `Bearer ${access_token}`
+                },
+            });
+           
             setProducts(data.products);
 
             const uniqueCategories = [

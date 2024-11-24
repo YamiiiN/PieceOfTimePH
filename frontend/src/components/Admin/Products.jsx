@@ -9,10 +9,13 @@ import { Button, TableCell, TableRow } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../assets/constants';
 import SideBar from '../../screens/Admin/SideBar';
+import { useSelector } from 'react-redux';
 
 const Products = () => {
     // USE STATE
     const [products, setProducts] = useState([]);
+
+    const { access_token } = useSelector(state => state.auth)
 
     const navigate = useNavigate();
 
@@ -47,12 +50,32 @@ const Products = () => {
         }
     ))
 
+
+    // const deleteProduct = async (id) => {
+    //     if (window.confirm('Are you sure do you want to delete this product?')) {
+    //         await axios.delete(`${baseUrl}/product/delete/${id}`, {
+    //             "Authorization": `Bearer ${access_token}`
+    //         });
+    //         getProducts();
+    //     }
+    // }
     const deleteProduct = async (id) => {
         if (window.confirm('Are you sure do you want to delete this product?')) {
-            await axios.delete(`${baseUrl}/product/delete/${id}`);
-            getProducts();
+            try {
+                await axios.delete(`${baseUrl}/product/delete/${id}`, {
+                    headers: {
+                        "Authorization": `Bearer ${access_token}`, 
+                    },
+                });
+
+                getProducts();
+            } catch (error) {
+                console.error("Error deleting product:", error);
+                alert("There was an error deleting the product.");
+            }
         }
     }
+
 
     const columns = [
         {
@@ -146,7 +169,14 @@ const Products = () => {
 
     const getProducts = async () => {
 
-        const { data } = await axios.get(`${baseUrl}/product/get/all`);
+        const { data } = await axios.get(`${baseUrl}/product/get/all`, {
+            headers: {
+                "Authorization": `Bearer ${access_token}`
+            },
+        });
+
+
+        // const { data } = await axios.get(`${baseUrl}/product/get/all`);
 
         setProducts(data.products);
         // console.log(data)
@@ -157,10 +187,18 @@ const Products = () => {
     const bulkDelete = async (ids) => {
         try {
 
-
             const { data } = await axios.put(`${baseUrl}/product/bulk/delete`, {
-                productIds: ids,
-            })
+                headers: {
+                    productIds: ids,
+                    "Authorization": `Bearer ${access_token}`
+                },
+            });
+
+
+
+            // const { data } = await axios.put(`${baseUrl}/product/bulk/delete`, {
+            //     productIds: ids,
+            // })
 
             getProducts();
 

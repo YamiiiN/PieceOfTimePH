@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 const cloudinary = require('cloudinary');
+const mongoose = require('mongoose');
 
 
 exports.createProduct = async (req, res, next) => {
@@ -78,29 +79,55 @@ exports.getAllProducts = async (req, res, next) => {
 
 
 
+// exports.getSingleProduct = async (req, res, next) => {
+
+//     try {
+
+//         const product = await Product.findById(req.params.id);
+
+//         res.json({
+//             message: "Single product retrieved!",
+//             product: product,
+//         })
+
+//     } catch (error) {
+
+//         console.log(error)
+
+//         return res.json({
+//             message: 'System error occured.',
+//             success: false,
+//         })
+
+//     }
+
+// }
+// const mongoose = require('mongoose');
+// 
 exports.getSingleProduct = async (req, res, next) => {
-
     try {
+        const { id } = req.params;
 
-        const product = await Product.findById(req.params.id);
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid Product ID" });
+        }
+
+        const product = await Product.findById(id);
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
 
         res.json({
             message: "Single product retrieved!",
-            product: product,
-        })
-
+            product,
+        });
     } catch (error) {
-
-        console.log(error)
-
-        return res.json({
-            message: 'System error occured.',
-            success: false,
-        })
-
+        console.log(error);
+        return res.status(500).json({ message: "System error occurred", success: false });
     }
+};
 
-}
 
 
 

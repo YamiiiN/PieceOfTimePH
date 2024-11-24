@@ -114,7 +114,8 @@ const NavBar = ({ username }) => {
               <PersonIcon sx={{ marginRight: '8px' }} />
               <Typography>Profile</Typography>
             </MenuItem>
-            <MenuItem onClick={() => handleNavigate('/orderOfUser')}>
+            <MenuItem >
+            {/* <MenuItem onClick={() => handleNavigate('/order/orderOfUser')}> */}
               <ListAltIcon sx={{ marginRight: '8px' }} />
               <Typography>Orders</Typography>
             </MenuItem>

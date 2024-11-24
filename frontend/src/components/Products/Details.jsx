@@ -14,6 +14,8 @@ const ProductDetailsPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
 
+  const { access_token } = useSelector(state => state.auth);
+
   const dispatch = useDispatch();
   const { cartItems } = useSelector(state => state.cart)
 
@@ -34,7 +36,11 @@ const ProductDetailsPage = () => {
 
   const getSingleProduct = async () => {
     try {
-      const { data } = await axios.get(`${baseUrl}/product/${id}`);
+      const { data } = await axios.get(`${baseUrl}/product/${id}`, {
+        headers: {
+          "Authorization": `Bearer ${access_token}`
+        }
+      });
       setProduct(data.product);
     } catch (error) {
       console.error('Error fetching product data:', error);

@@ -345,7 +345,7 @@ export default function OrdersList() {
 
     const updateStatus = async ({ id, status }) => {
         try {
-            const { data } = await axios.post(`${baseUrl}/order/update/status/${id}`, {
+            const { data } = await axios.put(`${baseUrl}/order/update/status/${id}`, {
                 status: status,
             }, {
                 headers: {

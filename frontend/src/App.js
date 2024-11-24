@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Home from './screens/User/Home';
 import LoginPage from './screens/User/Login';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useSearchParams } from 'react-router-dom';
 import SignUp from './components/User/RegisterCard';
 import Dashboard from './screens/Admin/Dashboard';
 import Products from './components/Admin/Products';
@@ -14,7 +14,7 @@ import { auth } from './utils/firebase'
 import { Navigate } from 'react-router-dom'
 import Cart from './screens/User/Cart';
 import { store, persistor } from './state/store';
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 // import ProductListing from './components/Products/ProductListing';
 import ProductDetails from './screens/User/ProductDetails';
@@ -23,46 +23,90 @@ import ProductUpdate from './components/Admin/ProductUpdate';
 import OrderList from './components/Admin/OrderList';
 
 // IMPORTS FOR USERS
-import OrderOfUser from './components/User/OrderOfUser'
+import OrderOfUser from './screens/User/OrderOfUser'
 
 // IMPORTS FOR ADMIN
 // import ProductDetails from './components/Products/Details'
 import ProductList from './screens/User/ProductList';
 
+
+// FCM NOTIF
+import { getToken, onMessage } from "firebase/messaging";
+import { messaging } from "./utils/firebase";
+import { baseUrl, VAPID_KEY } from './assets/constants';
+
+import { register } from './serviceWorker';
+import axios from 'axios';
+// import { useSelector } from 'react-redux';
+
 function App() {
   const [user, setUser] = useState(null);
 
-  // FCM NOTIF
-  // const requestPermission = async () => {
-  //   //requesting permission using Notification API
-  //   const permission = await Notification.requestPermission();
+  const {access_token} = useSelector(state => state.auth);
+  console.log(access_token)
+  const sendTokenToServer = async ({ token }) => {
+    try {
 
-  //   if (permission === "granted") {
-  //     const token = await getToken(messaging, {
-  //       vapidKey: "BHJEtgBYusoTixGiCiJBaTd96UgsN4UavQBYo9AlsfNekkaEvCRCUm0WMCPtT0HNed0WH7e9FgdEKzaW_UdUXsA",
-  //     });
+      const {data} = await axios.post(`${baseUrl}/user/save/token`, {token: token}, {
+        headers:{
+          "Authorization": `Bearer ${access_token}`
+        }
+      })
 
-  //     //We can send token to server
-  //     console.log("Token generated : ", token);
-  //   } else if (permission === "denied") {
-  //     //notifications are blocked
-  //     alert("You denied for the notification");
-  //   }
-  // }
+      
 
+    } catch (error) {
 
+      console.log(error)
+
+    }
+  }
+
+  const requestPermission = async () => {
+
+    const permission = await Notification.requestPermission();
+
+    if (permission === "granted") {
+      const token = await getToken(messaging, {
+        vapidKey: VAPID_KEY,
+      });
+
+      if (access_token) {
+        sendTokenToServer({token: token})
+      }
+
+      console.log("Token generated : ", token);
+
+    } else if (permission === "denied") {
+      alert("You denied for the notification");
+    }
+  }
+
+  useEffect(() => {
+
+    requestPermission();
+
+    const unsubscribe = onMessage(messaging, (payload) => {
+
+      console.log(payload)
+
+    });
+
+    return () => {
+      unsubscribe();
+    };
+
+  }, [access_token])
 
   useEffect(() => {
 
     auth.onAuthStateChanged((user) => {
       setUser(user)
-
-      // FCM NOTIF
-      // requestPermission();
-
-      console.log(user)
     })
+
   }, [])
+
+
 
 
 
@@ -85,7 +129,7 @@ function App() {
               {/* <Route path="/login" element={<LoginPage />} exact /> */}
 
 
-              <Route path="/product/get/all" element={<ProductListing />} exact />
+              <Route path="/product/get/all" element={<ProductList />} exact />
 
               <Route path="/product/:id" element={<ProductDetails />} exact />
 
@@ -96,7 +140,7 @@ function App() {
               {/* <Route path='/orderOfUser'
                 element={user ? <OrderOfUser /> : <Navigate to={'/login'} />}
               /> */}
-              <Route path="orderOfUser" element={<OrderOfUser />} exact />
+              {/* <Route path="/order/orderOfUser" element={<OrderOfUser />} exact /> */}
 
             </Routes>
 

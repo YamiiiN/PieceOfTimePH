@@ -35,6 +35,26 @@ const isAuthenticatedV2 = async (req, res, next) => {
 
 }
 
+//     const authHeader = req.headers.authorization;
+
+//     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//         return res.status(401).json({ message: "Authorization token is missing or invalid" });
+//     }
+
+//     const token = authHeader.split(" ")[1];
+
+//     try {
+//         const decodedToken = await admin.auth().verifyIdToken(token);
+//         const { email } = decodedToken;
+//         req.user = await User.findOne({ email });
+
+//         next();
+//     } catch (error) {
+//         return res.status(401).json({ message: "Invalid or expired token" });
+//     }
+// };
+
+
 
 // JWT TOKEN AUTH
 const isAuthenticated = async (req, res, next) => {
@@ -44,13 +64,13 @@ const isAuthenticated = async (req, res, next) => {
             token: req.headers.authorization.split(" ")[1]
         }
     }
-    
+
     const token = req.cookies?.token
     // const { token } = req.cookies
 
-    
+
     if (!token) {
-        return res.status(401).json({message: "Login first to access this resource"})
+        return res.status(401).json({ message: "Login first to access this resource" })
     }
 
     const data = jwt.verify(token, process.env.JWT_SECRET)

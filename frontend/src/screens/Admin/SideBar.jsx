@@ -27,6 +27,9 @@ import { useNavigate } from 'react-router-dom';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ReviewsIcon from '@mui/icons-material/Reviews';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+import { auth } from '../../utils/firebase';
 
 const drawerWidth = 240;
 
@@ -118,6 +121,13 @@ const pages = [
         route: '/orderOfUser',
         icon: <ReviewsIcon />,
     },
+    {
+        label: 'Logout',
+        // route: '/orderOfUser',
+        icon: <LogoutIcon />,
+        route: '/login', // This is just a placeholder
+        logout: true,
+    },
 ];
 
 export default function Sidebar({ children }) {
@@ -125,6 +135,12 @@ export default function Sidebar({ children }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [productOpen, setProductOpen] = useState(false);
+
+    const logout = () => {
+        auth.signOut();
+        navigate('/login')
+    }
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -171,7 +187,14 @@ export default function Sidebar({ children }) {
                             <ListItem disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
                                     onClick={() => {
-                                        if (page.children) {
+                                        // if (page.children) {
+                                        //     toggleProducts();
+                                        // } else {
+                                        //     navigate(page.route);
+                                        // }
+                                        if (page.logout) {
+                                            logout(); // Logout functionality
+                                        } else if (page.children) {
                                             toggleProducts();
                                         } else {
                                             navigate(page.route);
