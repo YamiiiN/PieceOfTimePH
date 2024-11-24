@@ -10,7 +10,8 @@ const {
     create,
     all,
     updateStatus,
-    getMonthlySales
+    getMonthlySales,
+    getUserOrders
 } = require('../controllers/order');
 
 
@@ -25,7 +26,7 @@ router.put('/update/status/:id', isAuthenticatedV2, updateStatus);
 
 // router.get('/order/orderOfUser', isAuthenticatedV2, getUserOrders);
 
-
+router.get('/user/orders', isAuthenticatedV2, getUserOrders);
 
 
 module.exports = router;

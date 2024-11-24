@@ -3,6 +3,7 @@ import Hero from '../../components/Home/Hero';
 import Footer from '../../components/User/Footer';
 import LandingNav from '../../components/Home/Landing';
 import Spinner from '../../components/Spinner';
+import ProductListing from '../../components/Products/ProductListing';
 
 const LandingPage = () => {
 
@@ -19,8 +20,9 @@ const LandingPage = () => {
 
   return (
     <>
-        <LandingNav />
-        <Footer />
+      <LandingNav />
+      <ProductListing />
+      <Footer />
     </>
   )
 }

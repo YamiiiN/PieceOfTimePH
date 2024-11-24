@@ -23,6 +23,9 @@ import ReviewsTable from "./ReviewsTable";
 import MyReviews from "./MyReviews";
 import OrderStatus from "./OrderStatus";
 
+import UserOrderList from "./UserOrderList";
+import OrdersList from "../Admin/OrderList";
+
 const ProfileAvatar = styled(Avatar)(({ theme }) => ({
   width: theme.spacing(14),
   height: theme.spacing(14),
@@ -230,7 +233,7 @@ const ProfilePage = () => {
           <OrderStatus />
         </TabPanel>
         <TabPanel value={tabValue} index={3}>
-          
+          <UserOrderList />
         </TabPanel>
       </Box>
     </Box>
