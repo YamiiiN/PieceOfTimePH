@@ -1,99 +1,186 @@
-// src/pages/Admin/Dboard.js
-import React from 'react';
-import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
-// import Sidebar from '../../components/Admin/Sidebar';
-// import Topbar from '../../components/Admin/Topbar';
-import { BarChart, LineChart, Line, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { baseUrl } from '../../assets/constants';
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  TextField,
+  Button,
+} from '@mui/material';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+} from 'recharts';
 import SideBar from './SideBar';
+import { ShoppingCart, Group, Inventory } from '@mui/icons-material';
 
-const sampleSalesData = [
-    { name: 'Jan', sales: 4000 },
-    { name: 'Feb', sales: 3000 },
-    { name: 'Mar', sales: 5000 },
-    { name: 'Apr', sales: 4000 },
-];
+const Dashboard = () => {
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [salesData, setSalesData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-const Dashboard = ({ }) => {
-    return (
-        <SideBar>
-            <Box display="flex" marginTop={1}>
-                {/* <Sidebar /> */}
+  const fetchSalesData = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(`${baseUrl}/order/orders/monthly-sales`);
+      console.log('Fetched Sales Data:', data);
+      setSalesData(data); 
+    } catch (error) {
+      console.error('Error fetching sales data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-                <Box sx={{ flexGrow: 1 }}> {/* Offset to match sidebar width */}
-                    {/* Topbar with Dynamic Title */}
-                    {/* <Topbar title={'Dashboard'} /> */}
+  useEffect(() => {
+    fetchSalesData();
+  }, []);
 
-                    {/* Main Content */}
-                    <Box component="main" sx={{ p: 3, mt: 8 }}>
-                        {/* Overview Cards */}
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} sm={6} md={3}>
-                                <Card>
-                                    <CardContent>
-                                        <Typography variant="h6">Total Sales</Typography>
-                                        <Typography variant="h4">$24,000</Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={3}>
-                                <Card>
-                                    <CardContent>
-                                        <Typography variant="h6">Total Orders</Typography>
-                                        <Typography variant="h4">1,230</Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={3}>
-                                <Card>
-                                    <CardContent>
-                                        <Typography variant="h6">Returning Customers</Typography>
-                                        <Typography variant="h4">620</Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={3}>
-                                <Card>
-                                    <CardContent>
-                                        <Typography variant="h6">Revenue</Typography>
-                                        <Typography variant="h4">$72,000</Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        </Grid>
+  const filteredData = salesData.filter((item) => {
+    const itemDate = new Date(`${item.year}-${String(item.month).padStart(2, '0')}-01`);
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
 
-                        {/* Sales Chart */}
-                        <Box mt={5}>
-                            <Typography variant="h5" gutterBottom>
-                                Monthly Sales
-                            </Typography>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <LineChart data={sampleSalesData}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Line type="monotone" dataKey="sales" stroke="#8884d8" activeDot={{ r: 8 }} />
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </Box>
+    return (!start || itemDate >= start) && (!end || itemDate <= end);
+  });
 
-                        {/* Recent Orders Table */}
-                        <Box mt={5}>
-                            <Typography variant="h5" gutterBottom>
-                                Recent Orders
-                            </Typography>
-                            <Box sx={{ bgcolor: 'background.paper', p: 2, borderRadius: 1, color: 'black' }}>
-                                <Typography>Order #12345 - $500 - Completed</Typography>
-                                <Typography>Order #12346 - $230 - Pending</Typography>
-                                <Typography>Order #12347 - $750 - Shipped</Typography>
-                                {/* Add more rows or use a Material Table component for real data */}
-                            </Box>
-                        </Box>
-                    </Box>
+  return (
+    <SideBar>
+      <Box sx={{ p: 4 }}>
+        <Typography variant="h4" sx={{ mb: 4, fontWeight: 'bold', color: '#333' }}>
+          Dashboard
+        </Typography>
+
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={3}>
+            {/* Total Products */}
+            <Card sx={{ border: '1px solid #e0e0e0', boxShadow: 3, mb: 2 }}>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Inventory sx={{ fontSize: 40, color: '#388e3c', mr: 2 }} />
+                  <Typography variant="h6" sx={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
+                    Total Products
+                  </Typography>
                 </Box>
+                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#388e3c', fontFamily: 'Poppins, sans-serif' }}>
+                  350
+                </Typography>
+              </CardContent>
+            </Card>
+
+            {/* Total Users */}
+            <Card sx={{ border: '1px solid #e0e0e0', boxShadow: 3, mb: 2 }}>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Group sx={{ fontSize: 40, color: '#1976d2', mr: 2 }} />
+                  <Typography variant="h6" sx={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
+                    Total Users
+                  </Typography>
+                </Box>
+                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1976d2', fontFamily: 'Poppins, sans-serif' }}>
+                  1,200
+                </Typography>
+              </CardContent>
+            </Card>
+
+            {/* Total Orders */}
+            <Card sx={{ border: '1px solid #e0e0e0', boxShadow: 3 }}>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <ShoppingCart sx={{ fontSize: 40, color: '#f57c00', mr: 2 }} />
+                  <Typography variant="h6" sx={{ color: '#666', fontFamily: 'Poppins, sans-serif' }}>
+                    Total Orders
+                  </Typography>
+                </Box>
+                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#f57c00', fontFamily: 'Poppins, sans-serif' }}>
+                  540
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Sales Overview */}
+          <Grid item xs={12} sm={9}>
+            <Box sx={{ padding: 3, borderRadius: 2, backgroundColor: '#f5f5f5' }}>
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', color: '#333' }}>
+                Sales Overview
+              </Typography>
+
+              {/* Date Filter Inputs */}
+              <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+                <TextField
+                  label="Start Date"
+                  type="date"
+                  InputLabelProps={{ shrink: true }}
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  sx={{ width: 200 }}
+                />
+                <TextField
+                  label="End Date"
+                  type="date"
+                  InputLabelProps={{ shrink: true }}
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  sx={{ width: 200 }}
+                />
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setStartDate('');
+                    setEndDate('');
+                  }}
+                  sx={{
+                    backgroundColor: '#f57c00',
+                    '&:hover': { backgroundColor: '#ff9800' },
+                  }}
+                >
+                  Reset
+                </Button>
+              </Box>
+
+              {/* Bar Chart */}
+              <Box sx={{ height: 300, width: '100%' }}>
+                {isLoading ? (
+                  <Typography variant="h6" sx={{ textAlign: 'center', color: '#888' }}>
+                    Loading data...
+                  </Typography>
+                ) : filteredData.length ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={filteredData}>
+                      <CartesianGrid stroke="#f0f0f0" />
+                      <XAxis
+                        dataKey="month"
+                        tickFormatter={(month) =>
+                          new Date(0, month - 1).toLocaleString('default', { month: 'short' })
+                        }
+                      />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="totalSales" fill="green" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <Typography variant="h6" sx={{ textAlign: 'center', color: '#888' }}>
+                    No data available for the selected period.
+                  </Typography>
+                )}
+              </Box>
             </Box>
-        </SideBar>
-    );
+          </Grid>
+        </Grid>
+      </Box>
+    </SideBar>
+  );
 };
 
 export default Dashboard;

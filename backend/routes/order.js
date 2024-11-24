@@ -10,10 +10,11 @@ const {
     create,
     all,
     updateStatus,
-    // getUserOrders,
+    getMonthlySales
 } = require('../controllers/order');
 
 
+router.get('/orders/monthly-sales', getMonthlySales);
 
 
 router.post('/create', isAuthenticatedV2, create);

@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import NavBar from '../../components/Home/NavBar'
+import React, { useState } from 'react';
+import NavBar from '../../components/Home/NavBar';
+import Spinner from '../../components/Spinner';
 import {
     MDBBtn,
     MDBCard,
     MDBCardBody,
-    MDBCardImage,
     MDBCardText,
     MDBCol,
     MDBContainer,
@@ -16,93 +16,81 @@ import {
 
 import CartCard from '../../components/Products/CartCard';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { baseUrl } from '../../assets/constants';
 import axios from 'axios';
-import { stepLabelClasses } from '@mui/material';
 import { removeAllFromCart } from '../../state/cartSlice';
-
 
 const SHIPPING_METHODS = [
     { value: "J&T Express", label: "J&T Express" },
     { value: "LBC Express", label: "LBC Express" },
     { value: "Gogo Express", label: "Gogo Express" },
-]
+];
 
 const PAYMENT_METHODS = [
     { value: "Cash on Delivery", label: "Cash on Delivery" },
     { value: "Gcash", label: "Gcash" },
     { value: "Debit Card", label: "Debit Card" },
-]
+];
 
 export default function Cart() {
-
-    const { cartItems } = useSelector(state => state.cart)
-
-    const { access_token } = useSelector(state => state.auth)
+    const { cartItems } = useSelector(state => state.cart);
+    const { access_token } = useSelector(state => state.auth);
 
     const [shippingMethod, setShippingMethod] = useState("J&T Express");
     const [shippingAddress, setShippingAddress] = useState("Taguig");
     const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
     const [contact, setContact] = useState("09454058654");
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
+
+    const computeTotal = () => {
+        return cartItems.reduce((total, product) => {
+            const totalProductPrice = product.sell_price * product.quantity;
+            return total + totalProductPrice;
+        }, 0);
+    };
 
     const checkout = async () => {
         setLoading(true);
 
+        const totalPrice = computeTotal(); 
+
         const order = {
-            order_items: cartItems.map(item => {
-                return {
-                    product: item._id,
-                    quantity: item.quantity
-                }
-            }),
+            order_items: cartItems.map(item => ({
+                product: item._id,
+                quantity: item.quantity,
+            })),
+            totalPrice: totalPrice, 
             shipping_method: shippingMethod,
             shipping_address: shippingAddress,
             payment_method: paymentMethod,
             contact_number: contact,
-        }
+        };
 
         try {
             const { data } = await axios.post(`${baseUrl}/order/create`, order, {
                 headers: {
-                    "Authorization": `Bearer ${access_token}`
-                }
-            })
+                    "Authorization": `Bearer ${access_token}`,
+                },
+            });
 
-            alert("Order success")
+            alert("Order placed successfully");
 
-            dispatch(
-                removeAllFromCart()
-            )
+            dispatch(removeAllFromCart());
 
-            setLoading(false)
+            setLoading(false);
         } catch (error) {
-            setLoading(false)
-            console.log(error)
+            setLoading(false);
+            console.error(error);
         }
-    }
-
-
-    const computeTotal = () => {
-        const totalPrice = cartItems.reduce((total, product) => {
-            const totalProductPrice = product.sell_price * product.quantity;
-            return total + totalProductPrice
-        }, 0)
-
-        return totalPrice;
-    }
-
-
+    };
 
     return (
         <>
             <NavBar username="Diana Carreon" />
-
-            <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
+            <section className="h-100 h-custom" style={{ background: "linear-gradient(135deg, #f5f5f5, #e3e3e3)" }}>
                 <MDBContainer className="py-5 h-100">
                     <MDBRow className="justify-content-center align-items-center h-100">
                         <MDBCol size="12">
@@ -123,17 +111,13 @@ export default function Cart() {
                                                 <hr className="my-4" />
 
                                                 {cartItems.map(item => {
-                                                    return <CartCard item={item} key={item._id} />
-
+                                                    return <CartCard item={item} key={item._id} />;
                                                 })}
-
-
 
                                                 <div className="pt-5">
                                                     <MDBTypography tag="h6" className="mb-0">
                                                         <MDBCardText tag="a" href="/product/get/all" className="text-body">
-                                                            <MDBIcon fas icon="long-arrow-alt-left me-2" /> Back
-                                                            to shop
+                                                            <MDBIcon fas icon="long-arrow-alt-left me-2" /> Back to shop
                                                         </MDBCardText>
                                                     </MDBTypography>
                                                 </div>
@@ -168,9 +152,7 @@ export default function Cart() {
                                                     </select>
                                                 </div>
 
-                                                <MDBTypography tag="h5" className="text-uppercase mb-3"
-                                                    onChange={(e) => setShippingAddress(e.target.value)}
-                                                    value={shippingAddress}>
+                                                <MDBTypography tag="h5" className="text-uppercase mb-3">
                                                     Shipping Address
                                                 </MDBTypography>
 
@@ -211,7 +193,7 @@ export default function Cart() {
                                                     <MDBTypography tag="h5">₱{computeTotal()}</MDBTypography>
                                                 </div>
 
-                                                <MDBBtn disabled={loading} onClick={checkout} color="success    " block size="lg">
+                                                <MDBBtn disabled={loading} onClick={checkout} color="success" block size="lg">
                                                     {loading ? "Processing..." : "Check out"}
                                                 </MDBBtn>
                                             </div>
@@ -224,5 +206,5 @@ export default function Cart() {
                 </MDBContainer>
             </section>
         </>
-    )
+    );
 }

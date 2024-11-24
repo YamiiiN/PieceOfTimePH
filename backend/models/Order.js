@@ -6,6 +6,12 @@ const orderModel = new mongoose.Schema({
         ref: 'User',
     },
 
+    totalPrice: {
+        type: Number,
+        required: true,
+        default: 0.0
+    },
+
     shipping_method : {
         type: String, 
         required: [true, "Shipping Method is required."],
@@ -41,7 +47,7 @@ const orderModel = new mongoose.Schema({
     status: {
         type: String, 
         required: true,
-        default: 'Pending', // Pending, Cancelled, Confirmed, On-delivery, Delivered, Finished
+        default: 'Pending', 
     },
 
 }, { timestamps: true })

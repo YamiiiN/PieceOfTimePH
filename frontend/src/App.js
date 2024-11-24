@@ -122,6 +122,7 @@ function App() {
               <Route path="/" element={<LandingPage />} exact />
               <Route path="/home" element={<Home />} exact />
               <Route path="/register" element={<SignUp />} exact />
+              <Route path="/profile" element={<Profile />} exact />
 
               <Route path='/login'
                 element={user ? <Navigate to={'/home'} /> : <LoginPage />}
