@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Grid, Box, Typography, Button, Paper } from '@mui/material';
+import { Rating } from '@mui/material';
 import Carousel from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -17,7 +18,6 @@ const ProductDetailsPage = () => {
   const { access_token } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
 
   const addProductToCart = () => {
     if (product) {
@@ -34,8 +34,8 @@ const ProductDetailsPage = () => {
     try {
       const { data } = await axios.get(`${baseUrl}/product/${id}`, {
         headers: {
-          "Authorization": `Bearer ${access_token}`
-        }
+          Authorization: `Bearer ${access_token}`,
+        },
       });
       setProduct(data.product);
     } catch (error) {
@@ -91,9 +91,8 @@ const ProductDetailsPage = () => {
   return (
     <Container>
       {product ? (
-        <Grid container spacing={4} sx={{ mt: 4, marginBottom: "100px"}}>
-
-          <Grid item xs={12} md={6} >
+        <Grid container spacing={4} sx={{ mt: 4, marginBottom: '100px' }}>
+          <Grid item xs={12} md={6}>
             <Paper sx={{ padding: 2 }}>
               <Carousel {...settings}>
                 {product.images.map((item, index) => (
@@ -114,60 +113,81 @@ const ProductDetailsPage = () => {
             </Paper>
           </Grid>
 
-          <Grid item xs={12} md={6} mb={20}>
-            <Typography
-              variant="h4"
-              gutterBottom
-              sx={{
-                fontFamily: 'Poppins, sans-serif',
-                fontWeight: 'bold',
-              }}
-            >
-              {product.name}
-            </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              paragraph
-              sx={{ fontFamily: 'Poppins, sans-serif' }}
-            >
-              {product.description}
-            </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              paragraph
-              sx={{ fontFamily: 'Poppins, sans-serif', marginBottom: '0px' }}
-            >
-              Brand: {product.brand}
-            </Typography>
-            <Typography
-              variant="h6"
-              gutterBottom
-              sx={{
-                fontFamily: 'Poppins, sans-serif',
-              }}
-            >
-              Price: ₱{product.sell_price}
-            </Typography>
-            <Box sx={{ mt: "80px" }}>
-              <Button
-                variant="contained"
-                color="success"
-                size="large"
-                sx={{ width: '50%' }}
-                onClick={addProductToCart}
+          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <Box>
+              <Typography
+                variant="h4"
+                gutterBottom
+                sx={{
+                  fontFamily: 'Poppins, sans-serif',
+                  fontWeight: 'bold',
+                }}
               >
-                Add to Cart
-              </Button>
-              <Button
-                variant="contained"
-                color="warning"
-                size="large"
-                sx={{ width: '40%', marginLeft: 1 }}
+                {product.name}
+              </Typography>
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                paragraph
+                sx={{ fontFamily: 'Poppins, sans-serif' }}
               >
-                Reviews
-              </Button>
+                {product.description}
+              </Typography>
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                paragraph
+                sx={{ fontFamily: 'Poppins, sans-serif', marginBottom: '0px' }}
+              >
+                Brand: {product.brand}
+              </Typography>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontFamily: 'Poppins, sans-serif',
+                }}
+              >
+                Price: ₱{product.sell_price}
+              </Typography>
+
+              <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                <Rating
+                  name="product-rating"
+                  value={product.rating || 0}
+                  precision={0.5}
+                  readOnly
+                />
+                <Typography sx={{ ml: 1, fontFamily: 'Poppins, sans-serif' }}>
+                  ({product.numReviews || 0} reviews)
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mt: 3,
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="success"
+                  size="large"
+                  sx={{ width: '48%' }}
+                  onClick={addProductToCart}
+                >
+                  Add to Cart
+                </Button>
+                <Button
+                  variant="contained"
+                  color="warning"
+                  size="large"
+                  sx={{ width: '48%' }}
+                >
+                  Reviews
+                </Button>
+              </Box>
             </Box>
           </Grid>
         </Grid>

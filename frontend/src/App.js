@@ -14,7 +14,7 @@ import { auth } from './utils/firebase'
 import { Navigate } from 'react-router-dom'
 import Cart from './screens/User/Cart';
 import { store, persistor } from './state/store';
-import { Provider, useSelector } from 'react-redux'
+import { Provider, useSelector } from 'react-redux' 
 import { PersistGate } from 'redux-persist/integration/react';
 // import ProductListing from './components/Products/ProductListing';
 import ProductDetails from './screens/User/ProductDetails';
