@@ -24,7 +24,7 @@ const Profile = () => {
     }
 
   return (
-    <Box sx={{background: "linear-gradient(135deg, #f5f5f5, #e3e3e3)"}}>
+    <Box sx={{background: "#fff"}}>
         <NavBar username={"Diana Carreon"}/>
         <ProfileCard />
         <Footer />

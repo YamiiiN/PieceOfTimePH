@@ -1,106 +1,70 @@
 import React from "react";
 import { Container, Grid, Card, CardContent, TextField, Button, Typography, Box } from "@mui/material";
-
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-
-import { auth, googleProvider, signInWithPopup } from '../../utils/firebase';
+import * as Yup from 'yup';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
-import { baseUrl } from "../../assets/constants";
-
-
 import { useDispatch } from "react-redux";
 import { setToken } from '../../state/authSlice';
+import GoogleIcon from '@mui/icons-material/Google';
 
 const LoginCard = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // WAY PARA 
-  const dispatch = useDispatch()
-
-  // YUP VALIDATION
   const validationSchema = Yup.object({
     email: Yup.string()
       .email('Invalid email address')
       .required('Email is required'),
-
-    password: Yup.string()
-      .required('Password is required'),
+    password: Yup.string().required('Password is required'),
   });
 
-  // FORMIK
   const formik = useFormik({
-    validationSchema: validationSchema,
-
-    initialValues: {
-      email: '',
-      password: '',
+    initialValues: { email: '', password: '' },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const { user } = await signInWithEmailAndPassword(auth, values.email, values.password);
+        dispatch(setToken(user.accessToken));
+        navigate('/home');
+      } catch (error) {
+        console.error("Login Error: ", error);
+      }
     },
+  });
 
-    onSubmit: (values) => {
-      console.log(values)
-
-      login(values);
-
-    }
-  })
-
-
-
-  const login = async (values) => {
-
-    try {
-      const data = await signInWithEmailAndPassword(auth, values.email, values.password)
-
-      // const user = auth.currentUser;
-
-      dispatch(
-        setToken(data.user.accessToken)
-      )
-
-      navigate('/home');
-
-      // console.log(user);
-    } catch (error) {
-      console.log(error)
-    }
-
-  }
-
-  // Google login handler
   const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-
-      // Access the user details
-      console.log("Logged in with Google:", user);
-
-      // Dispatch the token to your Redux store (or handle it however you'd like)
+      const { user } = await signInWithPopup(auth, googleProvider);
       dispatch(setToken(user.accessToken));
-
-      // Navigate to the home page
       navigate('/home');
     } catch (error) {
       console.error("Google Login Error: ", error);
     }
   };
 
-
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="md"
       sx={{
         height: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background: "linear-gradient(to right, rgba(240,240,240,0.9), rgba(220,220,220,0.9))",
+        background: "linear-gradient(to bottom right, #f0f4f8, #ffffff)",
       }}
     >
-      <Grid container spacing={0} sx={{ height: "80%", width: "80%", borderRadius: "12px", overflow: 'hidden' }}>
+      <Grid
+        container
+        sx={{
+          maxWidth: "800px",
+          height: "auto",
+          borderRadius: "12px",
+          boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+          overflow: "hidden",
+        }}
+      >
         <Grid item xs={6} sx={{ position: "relative", overflow: 'hidden', borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px" }}>
           <video autoPlay muted loop style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
             <source src="/watchvid.mp4" type="video/mp4" />
@@ -108,127 +72,122 @@ const LoginCard = () => {
           </video>
         </Grid>
 
-        <Grid item xs={6}>
-          <Card sx={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "#f2f2f2",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            borderRadiusRight: "12px",
-            transition: 'transform 0.3s ease'
-          }}>
-            <CardContent sx={{ width: "80%", maxWidth: "420px", padding: "20px", height: '100%' }}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                <img
-                  src="/logo2.png"
-                  alt="Logo"
-                  style={{ maxWidth: '300px', height: 'auto', marginBottom: '50px', marginTop: '40px' }}
-                />
-              </Box>
-
-              <Typography variant="h5" color="text.primary" sx={{ fontFamily: 'Paytone One, sans-serif', fontWeight: 'bold', textAlign: 'center', marginBottom: '20px', color: '#DEB82D' }}>
-                Sign Up/ Sign In
+        <Grid item xs={12} md={6}>
+          <Card
+            sx={{
+              padding: "30px",
+              backgroundColor: "#ffffff",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              borderRadius: "12px",
+              boxShadow: "none",
+            }}
+          >
+            <Box sx={{ textAlign: "center", marginBottom: "30px", marginTop: "30px" }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "600",
+                  marginBottom: "5px",
+                  color: "#333",
+                }}
+              >
+                Sign In
               </Typography>
+              <Typography
+                variant="body2"
+                sx={{ fontFamily: "Poppins, sans-serif", color: "#555" }}
+              >
+                Enter your credentials to access your account.
+              </Typography>
+            </Box>
 
+            <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
               <TextField
                 fullWidth
                 label="Email"
+                id="email"
+                type="email"
                 variant="outlined"
-                id='email'
-                type='email'
+                value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.email}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
                 sx={{
-                  marginBottom: "15px",
-                  input: { fontFamily: 'Poppins, sans-serif', padding: '10px' },
-                  label: { fontFamily: 'Poppins, sans-serif' },
-                  borderRadius: '8px'
+                  marginBottom: "20px",
+                  '& .MuiInputLabel-root': { color: '#888' },
                 }}
-                InputLabelProps={{ style: { color: '#000' } }}
-                InputProps={{ style: { color: '#333' } }}
               />
-              {/* CONDITIONAL RENDERING */}
-              {formik.touched.email && (
-                <small style={{ fontSize: 12, color: "red" }}>{formik.errors.email}</small>
-              )}
-
               <TextField
                 fullWidth
                 label="Password"
-                variant="outlined"
-                id='password'
+                id="password"
                 type="password"
+                variant="outlined"
+                value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.password}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
                 sx={{
-                  marginBottom: "15px",
-                  input: { fontFamily: 'Poppins, sans-serif', padding: '10px' },
-                  label: { fontFamily: 'Poppins, sans-serif' },
-                  borderRadius: '8px'
+                  marginBottom: "20px",
+                  '& .MuiInputLabel-root': { color: '#888' },
                 }}
-                InputLabelProps={{ style: { color: '#000' } }}
-                InputProps={{ style: { color: '#333' } }}
               />
-              {/* CONDITIONAL RENDERING */}
-              {formik.touched.password && (
-                <small style={{ fontSize: 12, color: "red" }}>{formik.errors.password}</small>
-              )}
-
-              <Typography
-                href="/register"
-                component="a"
-                variant="body2"
-                sx={{
-                  textAlign: "right",
-                  color: "#434343",
-                  marginBottom: "15px",
-                  fontFamily: 'Poppins, sans-serif',
-                  cursor: "pointer",
-                  '&:hover': { textDecoration: "underline" },
-                }}
-              >
-                Do not have an account?
-              </Typography>
 
               <Button
                 fullWidth
                 variant="contained"
+                color="primary"
                 sx={{
-                  backgroundColor: "#fff",
-                  color: "black",
-                  fontFamily: 'Poppins, sans-serif',
-                  padding: "10px",
+                  backgroundColor: "#4285F4",
+                  color: "#fff",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  textTransform: "none",
                   borderRadius: "8px",
-                  '&:hover': { backgroundColor: "#34A853" },
-                  transition: "0.3s",
-                  marginBottom: '10px',
-                  marginTop: '10px'
+                  marginBottom: "15px",
+                  '&:hover': { backgroundColor: "#357AE8" },
                 }}
+                startIcon={<GoogleIcon />}
                 onClick={handleGoogleLogin}
               >
-                Login with Google
+                Sign in with Google
               </Button>
               <Button
+                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{
                   backgroundColor: "#000",
-                  color: "white",
-                  fontFamily: 'Poppins, sans-serif',
-                  padding: "10px",
+                  color: "#fff",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  textTransform: "none",
                   borderRadius: "8px",
-                  '&:hover': { backgroundColor: "#434343" },
-                  transition: "0.3s",
+                  '&:hover': { backgroundColor: "#333" },
                 }}
-                onClick={formik.handleSubmit}
               >
-                Login
+                Sign In
               </Button>
-            </CardContent>
+            </form>
+
+            <Typography
+              component="a"
+              href="/register"
+              sx={{
+                marginTop: "15px",
+                color: "#555",
+                fontSize: "14px",
+                textDecoration: "none",
+                '&:hover': { textDecoration: "underline" },
+              }}
+            >
+              Don’t have an account? Sign Up
+            </Typography>
           </Card>
         </Grid>
       </Grid>

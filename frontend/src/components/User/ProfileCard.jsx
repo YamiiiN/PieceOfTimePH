@@ -12,14 +12,19 @@ import {
   Tooltip,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import ReviewsIcon from '@mui/icons-material/Reviews';
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import LogoutIcon from "@mui/icons-material/Logout";
 import StarIcon from "@mui/icons-material/Star";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import HistoryIcon from "@mui/icons-material/History";
+import ReviewsTable from "./ReviewsTable";
+import MyReviews from "./MyReviews";
+import OrderStatus from "./OrderStatus";
 
 import UserOrderList from "./UserOrderList";
+import OrdersList from "../Admin/OrderList";
 
 const ProfileAvatar = styled(Avatar)(({ theme }) => ({
   width: theme.spacing(14),
@@ -77,7 +82,7 @@ const ProfilePage = () => {
         gap: 4,
         mt: 3,
         px: { xs: 2, md: 6 },
-        background: "linear-gradient(135deg, #f5f5f5, #e3e3e3)",
+        background: "#fff",
         minHeight: "100vh",
         padding: 4,
       }}
@@ -194,8 +199,11 @@ const ProfilePage = () => {
             },
           }}
         >
-          <Tooltip title="Reviews & Ratings" arrow>
+          <Tooltip title="Review a Product" arrow>
             <Tab label={<StarIcon />} />
+          </Tooltip>
+          <Tooltip title="Your Reviews" arrow>
+            <Tab label={<ReviewsIcon />} />
           </Tooltip>
           <Tooltip title="Order Status" arrow>
             <Tab label={<ShoppingBagIcon />} />
@@ -207,19 +215,25 @@ const ProfilePage = () => {
 
         {/* Tab Content */}
         <TabPanel value={tabValue} index={0}>
-          <Typography variant="body1" color="text.secondary">
-            Reviews/ Ratings dito
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', color: '#333' }}>
+            Review Product
           </Typography>
+          <ReviewsTable />
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <Typography variant="body1" color="text.secondary">
-            <UserOrderList />
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', color: '#333' }}>
+            My Reviews
           </Typography>
+          <MyReviews />
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
-          <Typography variant="body1" color="text.secondary">
-            Eto order history, lahat ng order andito
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', color: '#333' }}>
+            My Order Status
           </Typography>
+          <OrderStatus />
+        </TabPanel>
+        <TabPanel value={tabValue} index={3}>
+          <UserOrderList />
         </TabPanel>
       </Box>
     </Box>
