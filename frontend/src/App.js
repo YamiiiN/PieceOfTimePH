@@ -28,7 +28,7 @@ import OrderOfUser from './screens/User/OrderOfUser'
 // IMPORTS FOR ADMIN
 // import ProductDetails from './components/Products/Details'
 import ProductList from './screens/User/ProductList';
-
+import Profile from './screens/User/Profile';
 
 // FCM NOTIF
 import { getToken, onMessage } from "firebase/messaging";
