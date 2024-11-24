@@ -1,82 +1,32 @@
-import React, { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-
-
-import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
+import React from "react";
+import { Container, Grid, Card, CardContent, TextField, Button, Typography, Box } from "@mui/material";
 import { useFormik } from 'formik';
-import axios from 'axios';
-
-import { baseUrl } from '../../assets/constants';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { setToken } from '../../state/authSlice';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 
-
-
-function Copyright() {
-  return (
-    <Typography variant="body2" align="center" color="#a7c7e7">
-      {'Copyright © '}
-      <Link color="#9575cd" href="https://mui.com/">
-        IntegrityHub
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-export default function SignUp() {
-
-  // para mas navigate sa login to bali variable siya
+const RegisterCard = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // YUP VALIDATION
+  // Validation schema
   const validationSchema = Yup.object({
-
-    first_name: Yup.string()
-      .max(20, 'First Name must be less than 20 characters')
-      .required('First Name is required'),
-
-    last_name: Yup.string()
-      .max(20, 'Last Name must be less than 20 characters')
-      .required('Last Name is required'),
-
-    email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required'),
-
-    password: Yup.string()
-      .min(8, 'Password must be at least 8 characters')
-      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-      .matches(/[0-9]/, 'Password must contain at least one number')
-      .matches(/[^A-Za-z0-9]/, 'Password must contain at least one special character')
-      .required('Password is required'),
-
-    repeatPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match') // Ensures repeatPassword matches the password
-      .required('Please confirm your password'),
-
-    images: Yup.string()
-      .required('Images are required'),
+    first_name: Yup.string().required('First Name is required'),
+    last_name: Yup.string().required('Last Name is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().required('Password is required'),
+    repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Please confirm your password'),
+    images: Yup.mixed().required('Images are required').test(
+      'fileSize',
+      'File too large',
+      value => !value || (value && value.size <= 5000000) // limit size to 5MB
+    ),
   });
 
-  // FORMIK
   const formik = useFormik({
-    validationSchema: validationSchema,
-
     initialValues: {
       first_name: '',
       last_name: '',
@@ -85,218 +35,218 @@ export default function SignUp() {
       repeatPassword: '',
       images: '',
     },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        // Handle image file upload
+        const formData = new FormData();
+        formData.append('first_name', values.first_name);
+        formData.append('last_name', values.last_name);
+        formData.append('email', values.email);
+        formData.append('password', values.password);
+        formData.append('images', values.images); // Handle image upload
 
-    onSubmit: (values) => {
-      console.log(values)
-
-      register(values);
-
-      fireBaseAuth(values);
-
-    }
-  })
-
-  const register = async (values) => {
-
-    try {
-
-      const formData = new FormData;
-      for (let i = 0; i <= formik.values.images.length; i++) {
-        formData.append('images', formik.values.images[i]);
+        await createUserWithEmailAndPassword(auth, values.email, values.password);
+        dispatch(setToken(auth.currentUser.accessToken));
+        navigate('/home');
+      } catch (error) {
+        console.error("Registration Error: ", error);
       }
-      formData.append('first_name', formik.values.first_name)
-      formData.append('last_name', formik.values.last_name)
-      formData.append('email', formik.values.email)
-      formData.append('password', formik.values.password)
-
-      const { data } = await axios.post(`${baseUrl}/user/register`, formData)
-
-      console.log(data);
-
-      navigate('/login')
-
-    } catch (error) {
-      alert("Error occured!");
-      console.error(error);
-    }
-  }
-
-
-  const fireBaseAuth = async (values) => {
-
-
-    await createUserWithEmailAndPassword(auth, values.email, values.password);
-
-    const user = auth.currentUser;
-
-    console.log(user);
-
-  }
-
-  // const [formData, setFormData] = useState({
-  //   fname: '',
-  //   lname: '',
-  //   username: '',
-  //   email: '',
-  //   password: '',
-  // });
+    },
+  });
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
+    <Container
+      maxWidth="l"
+      sx={{
+        height: "100vh",
+        minWidth: "1000px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "linear-gradient(to bottom right, #f0f4f8, #ffffff)",
+      }}
+    >
+      <Grid
+        container
         sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          maxWidth: "1000px",
+          height: "auto",
+          borderRadius: "12px",
+          boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+          overflow: "hidden",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main', background: 'linear-gradient(135deg, #a7c7e7, #d0a0d2)' }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5" sx={{ color: "#9575cd" }}>
-          Sign up
-        </Typography>
-        <Box component="form" sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="first_name"
-                name="first_name"
-                variant="outlined"
-                required
-                fullWidth
-                id="first_name"
-                label="First Name"
-                autoFocus
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.first_name}
-              />
-              {/* CONDITIONAL RENDERING */}
-              {formik.touched.first_name && (
-                <small style={{ fontSize: 12, color: "red" }}>{formik.errors.first_name}</small>
-              )}
-            </Grid>
+        <Grid item xs={6} sx={{ position: "relative", overflow: 'hidden', borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px" }}>
+          <video autoPlay muted loop style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
+            <source src="/watchvid.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="last_name"
-                label="Last Name"
-                name="last_name"
-                autoComplete="last_name"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.last_name}
-              />
-              {/* CONDITIONAL RENDERING */}
-              {formik.touched.last_name && (
-                <small style={{ fontSize: 12, color: "red" }}>{formik.errors.last_name}</small>
-              )}
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-              />
-              {/* CONDITIONAL RENDERING */}
-              {formik.touched.email && (
-                <small style={{ fontSize: 12, color: "red" }}>{formik.errors.email}</small>
-              )}
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-              />
-              {/* CONDITIONAL RENDERING */}
-              {formik.touched.password && (
-                <small style={{ fontSize: 12, color: "red" }}>{formik.errors.password}</small>
-              )}
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="repeatPassword"
-                label="Repeat Password"
-                type="repeatPassword"
-                id="repeatPassword"
-                autoComplete="repeatPassword"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.repeatPassword}
-              />
-              {/* CONDITIONAL RENDERING */}
-              {formik.touched.repeatPassword && (
-                <small style={{ fontSize: 12, color: "red" }}>{formik.errors.repeatPassword}</small>
-              )}
-            </Grid>
-
-
-            <input
-              type="file"
-              name="images"
-              accept="image/*"
-              multiple
-              onChange={(e) => formik.setFieldValue('images', e.target.files)}
-            />
-            {formik.touched.images && (
-              <small style={{ fontSize: 12, color: "red" }}>{formik.errors.images}</small>
-            )}
-            <Grid item xs={12}>
-              {/* <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive information and updates via email."
-              /> */}
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2, background: 'linear-gradient(135deg, #a7c7e7, #d0a0d2)', fontWeight: 'bold' }}
-            onClick={formik.handleSubmit}
+        <Grid item xs={12} md={6}>
+          <Card
+            sx={{
+              padding: "30px",
+              backgroundColor: "#ffffff",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              borderRadius: "12px",
+              boxShadow: "none",
+            }}
           >
-            Sign Up
-          </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="/login" variant="body2" color="#d0a0d2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
+            <Box sx={{ textAlign: "center", marginBottom: "30px", marginTop: "30px" }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "600",
+                  marginBottom: "5px",
+                  color: "#333",
+                }}
+              >
+                Sign Up
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ fontFamily: "Poppins, sans-serif", color: "#555" }}
+              >
+                Enter your details to create an account.
+              </Typography>
+            </Box>
+
+            <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
+              <TextField
+                fullWidth
+                label="First Name"
+                id="first_name"
+                type="text"
+                variant="outlined"
+                value={formik.values.first_name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.first_name && Boolean(formik.errors.first_name)}
+                helperText={formik.touched.first_name && formik.errors.first_name}
+                sx={{
+                  marginBottom: "20px",
+                  '& .MuiInputLabel-root': { color: '#888' },
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Last Name"
+                id="last_name"
+                type="text"
+                variant="outlined"
+                value={formik.values.last_name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.last_name && Boolean(formik.errors.last_name)}
+                helperText={formik.touched.last_name && formik.errors.last_name}
+                sx={{
+                  marginBottom: "20px",
+                  '& .MuiInputLabel-root': { color: '#888' },
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Email"
+                id="email"
+                type="email"
+                variant="outlined"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                sx={{
+                  marginBottom: "20px",
+                  '& .MuiInputLabel-root': { color: '#888' },
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Password"
+                id="password"
+                type="password"
+                variant="outlined"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
+                sx={{
+                  marginBottom: "20px",
+                  '& .MuiInputLabel-root': { color: '#888' },
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Confirm Password"
+                id="repeatPassword"
+                type="password"
+                variant="outlined"
+                value={formik.values.repeatPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.repeatPassword && Boolean(formik.errors.repeatPassword)}
+                helperText={formik.touched.repeatPassword && formik.errors.repeatPassword}
+                sx={{
+                  marginBottom: "20px",
+                  '& .MuiInputLabel-root': { color: '#888' },
+                }}
+              />
+              
+              {/* Image Upload Field */}
+              <input
+                accept="image/*"
+                id="images"
+                name="images"
+                type="file"
+                onChange={(e) => formik.setFieldValue('images', e.target.files[0])}
+                style={{ marginBottom: "20px" }}
+              />
+              {formik.touched.images && formik.errors.images && (
+                <Typography color="error">{formik.errors.images}</Typography>
+              )}
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{
+                  backgroundColor: "#000",
+                  color: "#fff",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  textTransform: "none",
+                  borderRadius: "8px",
+                  '&:hover': { backgroundColor: "#333" },
+                }}
+              >
+                Sign Up
+              </Button>
+            </form>
+
+            <Typography
+              component="a"
+              href="/login"
+              sx={{
+                marginTop: "15px",
+                color: "#555",
+                fontSize: "14px",
+                textDecoration: "none",
+                '&:hover': { textDecoration: "underline" },
+              }}
+            >
+              Already have an account? Sign In
+            </Typography>
+          </Card>
+        </Grid>
+      </Grid>
     </Container>
   );
-}
+};
+
+export default RegisterCard;
