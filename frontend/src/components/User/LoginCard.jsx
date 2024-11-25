@@ -113,7 +113,7 @@ const LoginCard = () => {
               boxShadow: "none",
             }}
           >
-            <Box sx={{ textAlign: "center", marginBottom: "30px", marginTop: "30px" }}>
+            <Box sx={{ textAlign: "center", marginBottom: "30px", marginTop: "20px" }}>
               <Typography
                 variant="h5"
                 sx={{

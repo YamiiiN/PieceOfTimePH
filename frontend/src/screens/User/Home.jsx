@@ -21,7 +21,7 @@ const Home = () => {
 
   return (
     <>
-        <NavBar username="Diana Carreon"/>
+        <NavBar/>
         <Hero />
             <ProductListing />
         <Footer />

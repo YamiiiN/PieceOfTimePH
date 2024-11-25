@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { auth } from '../../utils/firebase';
 
-const NavBar = ({ username }) => {
+const NavBar = () => {
   const { cartItems } = useSelector((state) => state.cart);
 
   const navigate = useNavigate();
@@ -27,12 +27,6 @@ const NavBar = ({ username }) => {
   const logout = () => {
     auth.signOut();
     navigate('/login');
-  };
-
-  const getInitials = (name) => {
-    if (!name) return '';
-    const names = name.split(' ');
-    return names.map((n) => n.charAt(0).toUpperCase()).join('');
   };
 
   const handleNavigate = (path) => {
@@ -107,7 +101,16 @@ const NavBar = ({ username }) => {
               About
             </Button>
 
-            {username ? (
+              {/* <Avatar
+                sx={{
+                  marginLeft: '1rem',
+                  bgcolor: '#fff',
+                  color: '#000',
+                  cursor: 'pointer',
+                }}
+                onClick={handleProfileMenuOpen}
+              >
+              </Avatar> */}
               <Avatar
                 sx={{
                   marginLeft: '1rem',
@@ -117,21 +120,8 @@ const NavBar = ({ username }) => {
                 }}
                 onClick={handleProfileMenuOpen}
               >
-                {getInitials(username)}
+                {/* <AccountCircleIcon /> */}
               </Avatar>
-            ) : (
-              <Avatar
-                sx={{
-                  marginLeft: '1rem',
-                  bgcolor: '#fff',
-                  color: '#000',
-                  cursor: 'pointer',
-                }}
-                onClick={handleProfileMenuOpen}
-              >
-                <AccountCircleIcon />
-              </Avatar>
-            )}
 
             <Menu
               anchorEl={anchorEl}
