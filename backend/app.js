@@ -12,7 +12,7 @@ const productRoutes = require('./routes/product');
 const userRoutes = require('./routes/user')
 const orderRoutes = require('./routes/order');
 // const reviewRoutes = require('./routes/review')
-const reviewRoutes = require('./routes/review')
+// const reviewRoutes = require('./routes/review')
 
 require('dotenv').config();
 
@@ -22,7 +22,7 @@ require('dotenv').config();
 app.use('/product', productRoutes);
 app.use('/user', userRoutes);
 app.use('/order', orderRoutes);
-app.use('/review', reviewRoutes);
+// app.use('/review', reviewRoutes);
 
 
 

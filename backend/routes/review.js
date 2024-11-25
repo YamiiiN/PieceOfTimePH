@@ -1,12 +1,15 @@
-const express = require('express');
-const router = express.Router();
-// const Review = require('../controllers/review');
+// const express = require('express');
+// const router = express.Router();
+// // const Review = require('../controllers/review');
 
-const {
-    create
-} = require('../controllers/review');
+// const {
+//     addReview, getProductReviews, getDeliveredProducts
+// } = require('../controllers/review');
 
 
-router.post('/create', create);
+// router.post('/add', addReview);
+// router.get('/:productId', getProductReviews);
+// router.get('/delivered-products', getDeliveredProducts);
 
-module.exports = router;
+
+// module.exports = router;

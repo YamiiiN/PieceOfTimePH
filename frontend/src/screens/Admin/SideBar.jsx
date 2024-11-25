@@ -194,6 +194,7 @@ export default function Sidebar({ children }) {
                                         // }
                                         if (page.logout) {
                                             logout(); // Logout functionality
+                                            navigate('/login');
                                         } else if (page.children) {
                                             toggleProducts();
                                         } else {

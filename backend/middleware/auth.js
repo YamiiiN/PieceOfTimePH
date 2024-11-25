@@ -8,7 +8,7 @@ const isAuthenticatedV2 = async (req, res, next) => {
     // const { token } = req.cookies
 
     if (!token) {
-        return res.status(401).json({message: "Login first to access this resource"})
+        return res.status(401).json({ message: "Login first to access this resourcessss" })
     }
 
     try {
@@ -18,7 +18,7 @@ const isAuthenticatedV2 = async (req, res, next) => {
 
         req.user = await User.findOne({ email: email });
 
-        // console.log(req.user);
+        console.log(req.user);
 
         next();
 
@@ -29,7 +29,6 @@ const isAuthenticatedV2 = async (req, res, next) => {
 
 
 }
-
 
 // JWT TOKEN AUTH
 const isAuthenticated = async (req, res, next) => {
@@ -59,10 +58,13 @@ const isAuthenticated = async (req, res, next) => {
 
 }
 
-// AUTHORIZATION MIDDLEWARE
+// AUTHORIZATION MIDDLEWAR
 const authorizeRoles = (...roles) => {
+    console.log(roles)
     return (req, res, next) => {
+
         if (!req.user) {
+
             return res.status(401).json({ message: "You are not logged in" });
         }
 

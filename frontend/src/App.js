@@ -14,7 +14,7 @@ import { auth } from './utils/firebase'
 import { Navigate } from 'react-router-dom'
 import Cart from './screens/User/Cart';
 import { store, persistor } from './state/store';
-import { Provider, useSelector } from 'react-redux' 
+import { Provider, useSelector } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 // import ProductListing from './components/Products/ProductListing';
 import ProductDetails from './screens/User/ProductDetails';
@@ -37,23 +37,25 @@ import { baseUrl, VAPID_KEY } from './assets/constants';
 
 import { register } from './serviceWorker';
 import axios from 'axios';
+import ProtectedRoute from './components/Auth/ProtectedRoute';
 // import { useSelector } from 'react-redux';
 
 function App() {
   const [user, setUser] = useState(null);
 
-  const {access_token} = useSelector(state => state.auth);
+  const { access_token } = useSelector(state => state.auth);
   console.log(access_token)
+  
   const sendTokenToServer = async ({ token }) => {
     try {
 
-      const {data} = await axios.post(`${baseUrl}/user/save/token`, {token: token}, {
-        headers:{
+      const { data } = await axios.post(`${baseUrl}/user/save/token`, { token: token }, {
+        headers: {
           "Authorization": `Bearer ${access_token}`
         }
       })
 
-      
+
 
     } catch (error) {
 
@@ -72,7 +74,7 @@ function App() {
       });
 
       if (access_token) {
-        sendTokenToServer({token: token})
+        sendTokenToServer({ token: token })
       }
 
       console.log("Token generated : ", token);
@@ -122,6 +124,7 @@ function App() {
               <Route path="/" element={<LandingPage />} exact />
               <Route path="/home" element={<Home />} exact />
               <Route path="/register" element={<SignUp />} exact />
+              
 
               <Route path='/profile'
                 element={user ? <Profile /> : <Navigate to={'/login'} />}
@@ -149,14 +152,9 @@ function App() {
 
               {/* ORDER ROUTE */}
               <Route path="/user/orders" element={<UserOrderList />} />
-              {/* <Route path='/orderOfUser'
-                element={user ? <OrderOfUser /> : <Navigate to={'/login'} />}
-              /> */}
-              {/* <Route path="/order/orderOfUser" element={<OrderOfUser />} exact /> */}
+
 
             </Routes>
-
-
 
             <Routes>
 
@@ -164,21 +162,40 @@ function App() {
               {/* <Route path='/dashboard'
                 element={user ? <Dashboard /> : <Navigate to={'/login'} />}
               /> */}
-              <Route path="/dashboard" element={<Dashboard />} exact />
-              <Route path="/admin/products" element={<Products />} exact />
+              <Route path="/dashboard" element={<ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>} exact />
 
-              <Route path='/product/create'
+              <Route path="/admin/products" element={<ProtectedRoute>
+                <Products />
+              </ProtectedRoute>} exact />
+
+              {/* <Route path="/admin/products" element={<Products />} exact /> */}
+
+              <Route path="/product/create" element={<ProtectedRoute>
+                <ProductCreate />
+              </ProtectedRoute>} exact />
+
+              {/* <Route path='/product/create'
                 element={user ? <ProductCreate /> : <Navigate to={'/login'} />}
-              />
+              /> */}
 
-              <Route path='/product/update/:id'
+
+              <Route path="/product/update/:id" element={<ProtectedRoute>
+                <ProductUpdate />
+              </ProtectedRoute>} exact />
+
+              {/* <Route path='/product/update/:id'
                 element={user ? <ProductUpdate /> : <Navigate to={'/login'} />}
-              />
+              /> */}
 
               {/* Orders */}
-              <Route path='/orders'
+              <Route path="/orders" element={<ProtectedRoute>
+                <OrderList />
+              </ProtectedRoute>} exact />
+              {/* <Route path='/orders'
                 element={user ? <OrderList /> : <Navigate to={'/login'} />}
-              />
+              /> */}
 
             </Routes>
 

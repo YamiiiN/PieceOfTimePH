@@ -6,8 +6,10 @@ import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { setToken } from '../../state/authSlice';
+import { setToken, setUser } from '../../state/authSlice';
 import GoogleIcon from '@mui/icons-material/Google';
+import { baseUrl } from "../../assets/constants";
+import axios from "axios";
 
 const LoginCard = () => {
   const navigate = useNavigate();
@@ -27,12 +29,39 @@ const LoginCard = () => {
       try {
         const { user } = await signInWithEmailAndPassword(auth, values.email, values.password);
         dispatch(setToken(user.accessToken));
-        navigate('/home');
+
+        const response = await axios.post(`${baseUrl}/user/login`, {
+          email: values.email,
+          password: values.password
+        })
+
+
+
+        dispatch(
+          setUser(response.data.user)
+        )
+
+        console.log(response.data)
+
+        if (response.data.user.role === 'admin') {
+          navigate('/dashboard')
+        } else {
+          navigate('/home')
+        }
       } catch (error) {
         console.error("Login Error: ", error);
       }
     },
   });
+
+  const login = async (values) => {
+    try {
+      const { data } = await signInWithEmailAndPassword(auth, values.email, values.password)
+
+    } catch (error) {
+
+    }
+  }
 
   const handleGoogleLogin = async () => {
     try {

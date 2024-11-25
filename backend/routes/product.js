@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const upload = require("../utils/multer");
-const { isAuthenticated, isAuthenticatedV2 } = require('../middleware/auth');
+const { isAuthenticated, isAuthenticatedV2, authorizeRoles } = require('../middleware/auth');
 
 
 const {
-    createProduct,
+    createProduct, // admin
     getAllProducts,
-    getSingleProduct,
+    getSingleProduct, 
     updateProduct,
     deleteProduct
 } = require('../controllers/product');
